@@ -1,0 +1,5 @@
+<Project>
+  <!-- Stops the repository's Directory.Build.props from applying here. The consumers under this
+       folder stand in for a user's application, which inherits none of our build settings; they
+       set what they need themselves. -->
+</Project>

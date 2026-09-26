@@ -1,0 +1,4 @@
+<Project>
+  <!-- Stops central package management from applying here. The consumers pin the packed FreeTierMail
+       version themselves, the way a user's project does. -->
+</Project>

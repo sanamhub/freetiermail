@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Consumes the packed FreeTierMail packages under Native AOT. Not in FreeTierMail.slnx: it can
+       only restore after `dotnet pack -c Release -o artifacts/packages`. CI publishes it with
+       -r linux-x64 and runs the binary, which prints Delivered. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- A trim or AOT warning (IL2xxx, IL3xxx) from our packages fails the publish. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="FreeTierMail" />
+    <PackageReference Include="FreeTierMail" Version="$(FreeTierMailVersion)" />
+    <PackageReference Include="FreeTierMail.Brevo" Version="$(FreeTierMailVersion)" />
+    <PackageReference Include="FreeTierMail.Resend" Version="$(FreeTierMailVersion)" />
+    <PackageReference Include="FreeTierMail.Mailjet" Version="$(FreeTierMailVersion)" />
+    <PackageReference Include="FreeTierMail.Extensions.DependencyInjection" Version="$(FreeTierMailVersion)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
+  </ItemGroup>
+</Project>
