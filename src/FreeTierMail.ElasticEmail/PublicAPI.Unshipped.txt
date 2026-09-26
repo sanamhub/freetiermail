@@ -1,0 +1,7 @@
+#nullable enable
+FreeTierMail.ElasticEmail.ElasticEmailOptions
+FreeTierMail.ElasticEmail.ElasticEmailOptions.ElasticEmailOptions() -> void
+FreeTierMail.ElasticEmail.ElasticEmailProvider
+FreeTierMail.ElasticEmail.ElasticEmailProvider.ElasticEmailProvider(System.Net.Http.HttpClient! http, FreeTierMail.ElasticEmail.ElasticEmailOptions! options) -> void
+Microsoft.Extensions.DependencyInjection.ElasticEmailFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.ElasticEmailFreeTierMailBuilderExtensions.AddElasticEmail(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "elasticemail", System.Action<FreeTierMail.ElasticEmail.ElasticEmailOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!

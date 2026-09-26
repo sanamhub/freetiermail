@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/FreeTierMail/FreeTierMail.csproj" />
     <Project Path="src/FreeTierMail.Brevo/FreeTierMail.Brevo.csproj" />
+    <Project Path="src/FreeTierMail.ElasticEmail/FreeTierMail.ElasticEmail.csproj" />
     <Project Path="src/FreeTierMail.Extensions.DependencyInjection/FreeTierMail.Extensions.DependencyInjection.csproj" />
     <Project Path="src/FreeTierMail.MailerSend/FreeTierMail.MailerSend.csproj" />
     <Project Path="src/FreeTierMail.Mailgun/FreeTierMail.Mailgun.csproj" />
@@ -12,6 +13,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FreeTierMail.Brevo.Tests/FreeTierMail.Brevo.Tests.csproj" />
+    <Project Path="tests/FreeTierMail.ElasticEmail.Tests/FreeTierMail.ElasticEmail.Tests.csproj" />
     <Project Path="tests/FreeTierMail.Extensions.DependencyInjection.Tests/FreeTierMail.Extensions.DependencyInjection.Tests.csproj" />
     <Project Path="tests/FreeTierMail.MailerSend.Tests/FreeTierMail.MailerSend.Tests.csproj" />
     <Project Path="tests/FreeTierMail.Mailgun.Tests/FreeTierMail.Mailgun.Tests.csproj" />

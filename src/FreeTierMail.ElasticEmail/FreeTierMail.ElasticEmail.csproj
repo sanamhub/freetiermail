@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>FreeTierMail.ElasticEmail</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>FreeTierMail.ElasticEmail</PackageId>
+    <Description>Elastic Email provider for FreeTierMail: sends transactional email through the Elastic Email HTTP API and reports quota, throttling and account problems so the mailer can move to the next provider.</Description>
+    <PackageTags>email;transactional;elasticemail;freetiermail</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
+    <ProjectReference Include="../FreeTierMail.Extensions.DependencyInjection/FreeTierMail.Extensions.DependencyInjection.csproj" />
+    <InternalsVisibleTo Include="FreeTierMail.ElasticEmail.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
