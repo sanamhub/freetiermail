@@ -1,0 +1,7 @@
+#nullable enable
+FreeTierMail.Smtp2Go.Smtp2GoOptions
+FreeTierMail.Smtp2Go.Smtp2GoOptions.Smtp2GoOptions() -> void
+FreeTierMail.Smtp2Go.Smtp2GoProvider
+FreeTierMail.Smtp2Go.Smtp2GoProvider.Smtp2GoProvider(System.Net.Http.HttpClient! http, FreeTierMail.Smtp2Go.Smtp2GoOptions! options) -> void
+Microsoft.Extensions.DependencyInjection.Smtp2GoFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.Smtp2GoFreeTierMailBuilderExtensions.AddSmtp2Go(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "smtp2go", System.Action<FreeTierMail.Smtp2Go.Smtp2GoOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
