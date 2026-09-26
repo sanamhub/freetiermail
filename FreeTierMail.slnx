@@ -12,6 +12,9 @@
     <Project Path="src/FreeTierMail.Smtp2Go/FreeTierMail.Smtp2Go.csproj" />
     <Project Path="src/FreeTierMail.Testing/FreeTierMail.Testing.csproj" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/FreeTierMail.Samples/FreeTierMail.Samples.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FreeTierMail.Brevo.Tests/FreeTierMail.Brevo.Tests.csproj" />
     <Project Path="tests/FreeTierMail.ElasticEmail.Tests/FreeTierMail.ElasticEmail.Tests.csproj" />

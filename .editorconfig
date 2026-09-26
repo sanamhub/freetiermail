@@ -50,3 +50,9 @@ dotnet_diagnostic.CA1812.severity = none    # stub handlers are created in ways 
 # These public methods are xUnit facts that appear in consumers' test output, so they follow the
 # test naming convention of the [tests/**.cs] section instead of the public API naming rule.
 dotnet_diagnostic.CA1707.severity = none
+
+# The README's samples read like application code: no synchronization context to escape, and
+# console text is the point, not a localisation gap.
+[samples/**.cs]
+dotnet_diagnostic.CA2007.severity = none
+dotnet_diagnostic.CA1303.severity = none

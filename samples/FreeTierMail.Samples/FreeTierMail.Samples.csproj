@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The README's code, compiled by CI so it cannot drift from the API. Never run by CI and never
+       packed: it would need real provider keys. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FreeTierMail\FreeTierMail.csproj" />
+    <ProjectReference Include="..\..\src\FreeTierMail.Brevo\FreeTierMail.Brevo.csproj" />
+    <ProjectReference Include="..\..\src\FreeTierMail.Resend\FreeTierMail.Resend.csproj" />
+    <ProjectReference Include="..\..\src\FreeTierMail.Mailjet\FreeTierMail.Mailjet.csproj" />
+    <ProjectReference Include="..\..\src\FreeTierMail.Extensions.DependencyInjection\FreeTierMail.Extensions.DependencyInjection.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+  </ItemGroup>
+</Project>
