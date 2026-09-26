@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/FreeTierMail/FreeTierMail.csproj" />
+    <Project Path="src/FreeTierMail.Testing/FreeTierMail.Testing.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FreeTierMail.Tests/FreeTierMail.Tests.csproj" />

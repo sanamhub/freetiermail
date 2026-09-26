@@ -13,5 +13,6 @@
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
     <ProjectReference Include="../../src/FreeTierMail/FreeTierMail.csproj" />
+    <ProjectReference Include="../../src/FreeTierMail.Testing/FreeTierMail.Testing.csproj" />
   </ItemGroup>
 </Project>

@@ -40,6 +40,27 @@ override FreeTierMail.EmailMessage.ToString() -> string!
 FreeTierMail.EmailPriority
 FreeTierMail.EmailPriority.Critical = 1 -> FreeTierMail.EmailPriority
 FreeTierMail.EmailPriority.Normal = 0 -> FreeTierMail.EmailPriority
+FreeTierMail.EmailProviderOptions
+FreeTierMail.EmailProviderOptions.ApiKey.get -> string!
+FreeTierMail.EmailProviderOptions.ApiKey.set -> void
+FreeTierMail.EmailProviderOptions.BaseAddress.get -> System.Uri?
+FreeTierMail.EmailProviderOptions.BaseAddress.set -> void
+FreeTierMail.EmailProviderOptions.Daily.get -> int?
+FreeTierMail.EmailProviderOptions.Daily.set -> void
+FreeTierMail.EmailProviderOptions.EmailProviderOptions() -> void
+FreeTierMail.EmailProviderOptions.Monthly.get -> int?
+FreeTierMail.EmailProviderOptions.Monthly.set -> void
+FreeTierMail.EmailProviderOptions.MonthlyResetDay.get -> int
+FreeTierMail.EmailProviderOptions.MonthlyResetDay.set -> void
+FreeTierMail.EmailProviderOptions.Name.get -> string?
+FreeTierMail.EmailProviderOptions.Name.set -> void
+FreeTierMail.EmailProviderOptions.PreferForCritical.get -> bool
+FreeTierMail.EmailProviderOptions.PreferForCritical.set -> void
+FreeTierMail.EmailProviderOptions.ResetTimeZone.get -> string?
+FreeTierMail.EmailProviderOptions.ResetTimeZone.set -> void
+FreeTierMail.EmailProviderOptions.ToQuotaPlan() -> FreeTierMail.QuotaPlan!
+override FreeTierMail.EmailProviderOptions.ToString() -> string!
+virtual FreeTierMail.EmailProviderOptions.Validate(string! providerName) -> void
 FreeTierMail.FreeTierMailer
 FreeTierMail.FreeTierMailer.Enable(string! provider) -> void
 FreeTierMail.FreeTierMailer.FreeTierMailer(System.Collections.Generic.IEnumerable<FreeTierMail.IEmailProvider!>! providers, FreeTierMail.FreeTierMailerOptions? options = null, Microsoft.Extensions.Logging.ILogger<FreeTierMail.FreeTierMailer!>? logger = null) -> void
@@ -70,6 +91,16 @@ FreeTierMail.FreeTierMailerOptions.Strategy.get -> FreeTierMail.RoutingStrategy
 FreeTierMail.FreeTierMailerOptions.Strategy.set -> void
 FreeTierMail.FreeTierMailerOptions.TimeProvider.get -> System.TimeProvider?
 FreeTierMail.FreeTierMailerOptions.TimeProvider.set -> void
+FreeTierMail.HttpEmailProvider
+abstract FreeTierMail.HttpEmailProvider.CreateRequest(FreeTierMail.EmailMessage! message) -> System.Net.Http.HttpRequestMessage!
+FreeTierMail.HttpEmailProvider.HttpEmailProvider(System.Net.Http.HttpClient! http, FreeTierMail.EmailProviderOptions! options, string! defaultName) -> void
+abstract FreeTierMail.HttpEmailProvider.MapResponse(System.Net.HttpStatusCode status, System.Net.Http.Headers.HttpResponseHeaders! headers, string! body) -> FreeTierMail.ProviderResult!
+FreeTierMail.HttpEmailProvider.Name.get -> string!
+FreeTierMail.HttpEmailProvider.PreferForCritical.get -> bool
+FreeTierMail.HttpEmailProvider.Quota.get -> FreeTierMail.QuotaPlan!
+static FreeTierMail.HttpEmailProvider.RetryAfter(System.Net.Http.Headers.HttpResponseHeaders! headers) -> System.TimeSpan?
+FreeTierMail.HttpEmailProvider.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.ProviderResult!>!
+static FreeTierMail.HttpEmailProvider.Undocumented(System.Net.HttpStatusCode status) -> FreeTierMail.ProviderResult!
 FreeTierMail.IEmailProvider
 FreeTierMail.IEmailProvider.Name.get -> string!
 FreeTierMail.IEmailProvider.PreferForCritical.get -> bool

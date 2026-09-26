@@ -45,3 +45,8 @@ dotnet_diagnostic.CA1062.severity = none    # test inputs are built in the test 
 dotnet_diagnostic.CA1861.severity = none    # inline arrays keep expected values readable
 dotnet_diagnostic.CA2000.severity = none    # short-lived test objects end with the run
 dotnet_diagnostic.CA1812.severity = none    # stub handlers are created in ways the analyzer cannot see
+
+[src/FreeTierMail.Testing/ProviderContractTests.cs]
+# These public methods are xUnit facts that appear in consumers' test output, so they follow the
+# test naming convention of the [tests/**.cs] section instead of the public API naming rule.
+dotnet_diagnostic.CA1707.severity = none

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>FreeTierMail.Testing</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>FreeTierMail.Testing</PackageId>
+    <Description>Test helpers for FreeTierMail: a scripted fake provider, a scripted HTTP handler, and the xUnit v3 contract tests every provider, ours or a third party's, should pass.</Description>
+    <PackageTags>email;testing;xunit;freetiermail</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
+    <!-- Not xunit.v3: that package makes the referencing project a test runner. Consumers choose
+         their own runner. -->
+    <PackageReference Include="xunit.v3.extensibility.core" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
