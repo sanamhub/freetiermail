@@ -1,1 +1,116 @@
 #nullable enable
+FreeTierMail.EmailAddress
+FreeTierMail.EmailAddress.<Clone>$() -> FreeTierMail.EmailAddress!
+FreeTierMail.EmailAddress.Address.get -> string!
+FreeTierMail.EmailAddress.DisplayName.get -> string?
+FreeTierMail.EmailAddress.EmailAddress(string! address, string? displayName = null) -> void
+FreeTierMail.EmailAddress.Equals(FreeTierMail.EmailAddress? other) -> bool
+override FreeTierMail.EmailAddress.Equals(object? obj) -> bool
+override FreeTierMail.EmailAddress.GetHashCode() -> int
+const FreeTierMail.EmailAddress.MaxAddressLength = 254 -> int
+const FreeTierMail.EmailAddress.MaxDisplayNameLength = 200 -> int
+override FreeTierMail.EmailAddress.ToString() -> string!
+static FreeTierMail.EmailAddress.operator !=(FreeTierMail.EmailAddress? left, FreeTierMail.EmailAddress? right) -> bool
+static FreeTierMail.EmailAddress.operator ==(FreeTierMail.EmailAddress? left, FreeTierMail.EmailAddress? right) -> bool
+FreeTierMail.EmailMessage
+FreeTierMail.EmailMessage.Bcc.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.EmailAddress!>!
+FreeTierMail.EmailMessage.Bcc.init -> void
+FreeTierMail.EmailMessage.Cc.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.EmailAddress!>!
+FreeTierMail.EmailMessage.Cc.init -> void
+FreeTierMail.EmailMessage.EmailMessage(FreeTierMail.EmailAddress! from, System.Collections.Generic.IEnumerable<FreeTierMail.EmailAddress!>! to, string! subject) -> void
+FreeTierMail.EmailMessage.From.get -> FreeTierMail.EmailAddress!
+FreeTierMail.EmailMessage.HtmlBody.get -> string?
+FreeTierMail.EmailMessage.HtmlBody.init -> void
+FreeTierMail.EmailMessage.IdempotencyKey.get -> string?
+FreeTierMail.EmailMessage.IdempotencyKey.init -> void
+const FreeTierMail.EmailMessage.MaxIdempotencyKeyLength = 200 -> int
+const FreeTierMail.EmailMessage.MaxRecipients = 50 -> int
+const FreeTierMail.EmailMessage.MaxSubjectLength = 998 -> int
+FreeTierMail.EmailMessage.Priority.get -> FreeTierMail.EmailPriority
+FreeTierMail.EmailMessage.Priority.init -> void
+FreeTierMail.EmailMessage.ReplyTo.get -> FreeTierMail.EmailAddress?
+FreeTierMail.EmailMessage.ReplyTo.init -> void
+FreeTierMail.EmailMessage.Subject.get -> string!
+FreeTierMail.EmailMessage.Tags.get -> System.Collections.Generic.IReadOnlyList<string!>!
+FreeTierMail.EmailMessage.Tags.init -> void
+FreeTierMail.EmailMessage.TextBody.get -> string?
+FreeTierMail.EmailMessage.TextBody.init -> void
+FreeTierMail.EmailMessage.To.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.EmailAddress!>!
+override FreeTierMail.EmailMessage.ToString() -> string!
+FreeTierMail.EmailPriority
+FreeTierMail.EmailPriority.Critical = 1 -> FreeTierMail.EmailPriority
+FreeTierMail.EmailPriority.Normal = 0 -> FreeTierMail.EmailPriority
+FreeTierMail.IEmailProvider
+FreeTierMail.IEmailProvider.Name.get -> string!
+FreeTierMail.IEmailProvider.PreferForCritical.get -> bool
+FreeTierMail.IEmailProvider.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.ProviderResult!>!
+FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Accepted = 0 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.ProviderFault = 4 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.QuotaExhausted = 3 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.RecipientRejected = 1 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Throttled = 2 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Unavailable = 5 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Unknown = 6 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderResult
+FreeTierMail.ProviderResult.<Clone>$() -> FreeTierMail.ProviderResult!
+static FreeTierMail.ProviderResult.Accepted(string? providerMessageId = null) -> FreeTierMail.ProviderResult!
+FreeTierMail.ProviderResult.Deconstruct(out FreeTierMail.ProviderOutcome Outcome) -> void
+FreeTierMail.ProviderResult.Equals(FreeTierMail.ProviderResult? other) -> bool
+override FreeTierMail.ProviderResult.Equals(object? obj) -> bool
+override FreeTierMail.ProviderResult.GetHashCode() -> int
+static FreeTierMail.ProviderResult.Of(FreeTierMail.ProviderOutcome outcome, string! reason, System.TimeSpan? retryAfter = null) -> FreeTierMail.ProviderResult!
+FreeTierMail.ProviderResult.Outcome.get -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderResult.Outcome.init -> void
+FreeTierMail.ProviderResult.ProviderMessageId.get -> string?
+FreeTierMail.ProviderResult.ProviderMessageId.init -> void
+FreeTierMail.ProviderResult.ProviderResult(FreeTierMail.ProviderOutcome Outcome) -> void
+FreeTierMail.ProviderResult.Reason.get -> string?
+FreeTierMail.ProviderResult.Reason.init -> void
+FreeTierMail.ProviderResult.RetryAfter.get -> System.TimeSpan?
+FreeTierMail.ProviderResult.RetryAfter.init -> void
+override FreeTierMail.ProviderResult.ToString() -> string!
+static FreeTierMail.ProviderResult.operator !=(FreeTierMail.ProviderResult? left, FreeTierMail.ProviderResult? right) -> bool
+static FreeTierMail.ProviderResult.operator ==(FreeTierMail.ProviderResult? left, FreeTierMail.ProviderResult? right) -> bool
+FreeTierMail.SendAttempt
+FreeTierMail.SendAttempt.<Clone>$() -> FreeTierMail.SendAttempt!
+FreeTierMail.SendAttempt.Deconstruct(out string! Provider, out FreeTierMail.ProviderOutcome Outcome, out System.TimeSpan Duration, out string? Reason) -> void
+FreeTierMail.SendAttempt.Duration.get -> System.TimeSpan
+FreeTierMail.SendAttempt.Duration.init -> void
+FreeTierMail.SendAttempt.Equals(FreeTierMail.SendAttempt? other) -> bool
+override FreeTierMail.SendAttempt.Equals(object? obj) -> bool
+override FreeTierMail.SendAttempt.GetHashCode() -> int
+FreeTierMail.SendAttempt.Outcome.get -> FreeTierMail.ProviderOutcome
+FreeTierMail.SendAttempt.Outcome.init -> void
+FreeTierMail.SendAttempt.Provider.get -> string!
+FreeTierMail.SendAttempt.Provider.init -> void
+FreeTierMail.SendAttempt.Reason.get -> string?
+FreeTierMail.SendAttempt.Reason.init -> void
+FreeTierMail.SendAttempt.SendAttempt(string! Provider, FreeTierMail.ProviderOutcome Outcome, System.TimeSpan Duration, string? Reason) -> void
+override FreeTierMail.SendAttempt.ToString() -> string!
+static FreeTierMail.SendAttempt.operator !=(FreeTierMail.SendAttempt? left, FreeTierMail.SendAttempt? right) -> bool
+static FreeTierMail.SendAttempt.operator ==(FreeTierMail.SendAttempt? left, FreeTierMail.SendAttempt? right) -> bool
+FreeTierMail.SendResult
+FreeTierMail.SendResult.<Clone>$() -> FreeTierMail.SendResult!
+FreeTierMail.SendResult.Attempts.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.SendAttempt!>!
+FreeTierMail.SendResult.Attempts.init -> void
+FreeTierMail.SendResult.Deconstruct(out FreeTierMail.SendStatus Status, out System.Collections.Generic.IReadOnlyList<FreeTierMail.SendAttempt!>! Attempts) -> void
+FreeTierMail.SendResult.Equals(FreeTierMail.SendResult? other) -> bool
+override FreeTierMail.SendResult.Equals(object? obj) -> bool
+override FreeTierMail.SendResult.GetHashCode() -> int
+FreeTierMail.SendResult.IsReplay.get -> bool
+FreeTierMail.SendResult.IsReplay.init -> void
+FreeTierMail.SendResult.Provider.get -> string?
+FreeTierMail.SendResult.Provider.init -> void
+FreeTierMail.SendResult.ProviderMessageId.get -> string?
+FreeTierMail.SendResult.ProviderMessageId.init -> void
+FreeTierMail.SendResult.SendResult(FreeTierMail.SendStatus Status, System.Collections.Generic.IReadOnlyList<FreeTierMail.SendAttempt!>! Attempts) -> void
+FreeTierMail.SendResult.Status.get -> FreeTierMail.SendStatus
+FreeTierMail.SendResult.Status.init -> void
+override FreeTierMail.SendResult.ToString() -> string!
+static FreeTierMail.SendResult.operator !=(FreeTierMail.SendResult? left, FreeTierMail.SendResult? right) -> bool
+static FreeTierMail.SendResult.operator ==(FreeTierMail.SendResult? left, FreeTierMail.SendResult? right) -> bool
+FreeTierMail.SendStatus
+FreeTierMail.SendStatus.Failed = 1 -> FreeTierMail.SendStatus
+FreeTierMail.SendStatus.Sent = 0 -> FreeTierMail.SendStatus
+FreeTierMail.SendStatus.Unknown = 2 -> FreeTierMail.SendStatus
