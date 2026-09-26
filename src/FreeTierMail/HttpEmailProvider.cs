@@ -50,6 +50,7 @@ public abstract class HttpEmailProvider : IEmailProvider
     public async Task<ProviderResult> SendAsync(EmailMessage message, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(message);
+        cancellationToken.ThrowIfCancellationRequested();
         using var request = CreateRequest(message);
         try
         {
@@ -57,9 +58,10 @@ public abstract class HttpEmailProvider : IEmailProvider
             var body = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             return MapResponse(response.StatusCode, response.Headers, body);
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (Exception ex) when (cancellationToken.IsCancellationRequested && ex is OperationCanceledException or HttpRequestException)
         {
-            throw;
+            // The caller cancelled; content serialization can wrap that in HttpRequestException.
+            throw new OperationCanceledException("The send was cancelled.", ex, cancellationToken);
         }
         catch (OperationCanceledException)
         {

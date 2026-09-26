@@ -1,9 +1,13 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/FreeTierMail/FreeTierMail.csproj" />
+    <Project Path="src/FreeTierMail.Brevo/FreeTierMail.Brevo.csproj" />
+    <Project Path="src/FreeTierMail.Resend/FreeTierMail.Resend.csproj" />
     <Project Path="src/FreeTierMail.Testing/FreeTierMail.Testing.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/FreeTierMail.Brevo.Tests/FreeTierMail.Brevo.Tests.csproj" />
+    <Project Path="tests/FreeTierMail.Resend.Tests/FreeTierMail.Resend.Tests.csproj" />
     <Project Path="tests/FreeTierMail.Tests/FreeTierMail.Tests.csproj" />
   </Folder>
 </Solution>
