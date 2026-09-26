@@ -1,0 +1,76 @@
+name: verify-published
+
+# Downloads the packages nuget.org serves and consumes them from a clean project, plain and under
+# Native AOT. This checks the bytes users get, after nuget.org's repository signature, not the
+# files release.yml built.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Tag or version to check, for example v0.1.0-alpha.1. Empty reads Directory.Build.props.'
+        type: string
+        default: ''
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tag or version to check, for example v0.1.0-alpha.1. Empty reads Directory.Build.props.'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+  CI: 'true'
+
+jobs:
+  consume:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+
+      # nuget.org validates and indexes a push before serving it, which usually takes minutes and
+      # can take longer. Wait up to 45 minutes for every package, then fail.
+      - name: download the published packages
+        shell: bash
+        env:
+          VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          version="${VERSION_INPUT#v}"
+          if [ -z "$version" ]; then
+            version="$(grep -oPm1 '(?<=<Version>)[^<]+' Directory.Build.props)"
+          fi
+          lower_version="$(echo "$version" | tr '[:upper:]' '[:lower:]')"
+          mkdir -p published
+          for proj in src/*/*.csproj; do
+            id="$(basename "$proj" .csproj)"
+            lower_id="$(echo "$id" | tr '[:upper:]' '[:lower:]')"
+            url="https://api.nuget.org/v3-flatcontainer/$lower_id/$lower_version/$lower_id.$lower_version.nupkg"
+            for attempt in $(seq 1 45); do
+              if curl -fsSL -o "published/$id.$version.nupkg" "$url"; then
+                echo "downloaded $id $version"
+                break
+              fi
+              if [ "$attempt" -eq 45 ]; then
+                echo "::error::$id $version is not on nuget.org after 45 minutes"
+                exit 1
+              fi
+              sleep 60
+            done
+          done
+
+      - run: ./tests/packaging/verify-package.sh --package-dir published
+      - name: consume under Native AOT
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+          ./tests/packaging/verify-package.sh --package-dir published --aot
