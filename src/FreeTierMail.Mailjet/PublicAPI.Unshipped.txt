@@ -1,0 +1,7 @@
+#nullable enable
+FreeTierMail.Mailjet.MailjetOptions
+FreeTierMail.Mailjet.MailjetOptions.MailjetOptions() -> void
+FreeTierMail.Mailjet.MailjetOptions.SecretKey.get -> string!
+FreeTierMail.Mailjet.MailjetOptions.SecretKey.set -> void
+FreeTierMail.Mailjet.MailjetProvider
+FreeTierMail.Mailjet.MailjetProvider.MailjetProvider(System.Net.Http.HttpClient! http, FreeTierMail.Mailjet.MailjetOptions! options) -> void

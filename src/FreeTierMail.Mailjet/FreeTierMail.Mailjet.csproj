@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>FreeTierMail.Mailjet</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>FreeTierMail.Mailjet</PackageId>
+    <Description>Mailjet provider for FreeTierMail: sends transactional email through the Mailjet HTTP API and reports quota, throttling and account problems so the mailer can move to the next provider.</Description>
+    <PackageTags>email;transactional;mailjet;freetiermail</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
+    <InternalsVisibleTo Include="FreeTierMail.Mailjet.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
