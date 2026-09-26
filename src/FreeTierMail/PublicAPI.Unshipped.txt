@@ -40,6 +40,36 @@ override FreeTierMail.EmailMessage.ToString() -> string!
 FreeTierMail.EmailPriority
 FreeTierMail.EmailPriority.Critical = 1 -> FreeTierMail.EmailPriority
 FreeTierMail.EmailPriority.Normal = 0 -> FreeTierMail.EmailPriority
+FreeTierMail.FreeTierMailer
+FreeTierMail.FreeTierMailer.Enable(string! provider) -> void
+FreeTierMail.FreeTierMailer.FreeTierMailer(System.Collections.Generic.IEnumerable<FreeTierMail.IEmailProvider!>! providers, FreeTierMail.FreeTierMailerOptions? options = null, Microsoft.Extensions.Logging.ILogger<FreeTierMail.FreeTierMailer!>? logger = null) -> void
+FreeTierMail.FreeTierMailer.GetUsageAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaUsage!>!>!
+FreeTierMail.FreeTierMailer.ProviderNames.get -> System.Collections.Generic.IReadOnlyList<string!>!
+FreeTierMail.FreeTierMailer.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<FreeTierMail.SendResult!>!
+FreeTierMail.FreeTierMailerOptions
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerFailures.get -> int
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerFailures.set -> void
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerOpenFor.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerOpenFor.set -> void
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerWindow.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerWindow.set -> void
+FreeTierMail.FreeTierMailerOptions.CriticalReserve.get -> double
+FreeTierMail.FreeTierMailerOptions.CriticalReserve.set -> void
+FreeTierMail.FreeTierMailerOptions.DefaultThrottleWait.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.DefaultThrottleWait.set -> void
+FreeTierMail.FreeTierMailerOptions.FailoverOnUnknown.get -> bool
+FreeTierMail.FreeTierMailerOptions.FailoverOnUnknown.set -> void
+FreeTierMail.FreeTierMailerOptions.FreeTierMailerOptions() -> void
+FreeTierMail.FreeTierMailerOptions.IdempotencyCapacity.get -> int
+FreeTierMail.FreeTierMailerOptions.IdempotencyCapacity.set -> void
+FreeTierMail.FreeTierMailerOptions.IdempotencyRetention.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.IdempotencyRetention.set -> void
+FreeTierMail.FreeTierMailerOptions.QuotaStore.get -> FreeTierMail.IQuotaStore?
+FreeTierMail.FreeTierMailerOptions.QuotaStore.set -> void
+FreeTierMail.FreeTierMailerOptions.Strategy.get -> FreeTierMail.RoutingStrategy
+FreeTierMail.FreeTierMailerOptions.Strategy.set -> void
+FreeTierMail.FreeTierMailerOptions.TimeProvider.get -> System.TimeProvider?
+FreeTierMail.FreeTierMailerOptions.TimeProvider.set -> void
 FreeTierMail.IEmailProvider
 FreeTierMail.IEmailProvider.Name.get -> string!
 FreeTierMail.IEmailProvider.PreferForCritical.get -> bool
@@ -148,6 +178,10 @@ FreeTierMail.QuotaWindow.TimeZone.init -> void
 override FreeTierMail.QuotaWindow.ToString() -> string!
 static FreeTierMail.QuotaWindow.operator !=(FreeTierMail.QuotaWindow? left, FreeTierMail.QuotaWindow? right) -> bool
 static FreeTierMail.QuotaWindow.operator ==(FreeTierMail.QuotaWindow? left, FreeTierMail.QuotaWindow? right) -> bool
+FreeTierMail.RoutingStrategy
+FreeTierMail.RoutingStrategy.ExpiringFirst = 0 -> FreeTierMail.RoutingStrategy
+FreeTierMail.RoutingStrategy.MostRemaining = 2 -> FreeTierMail.RoutingStrategy
+FreeTierMail.RoutingStrategy.Ordered = 1 -> FreeTierMail.RoutingStrategy
 FreeTierMail.SendAttempt
 FreeTierMail.SendAttempt.<Clone>$() -> FreeTierMail.SendAttempt!
 FreeTierMail.SendAttempt.Deconstruct(out string! Provider, out FreeTierMail.ProviderOutcome Outcome, out System.TimeSpan Duration, out string? Reason) -> void
