@@ -10,6 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\FreeTierMail\FreeTierMail.csproj" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" />
+  </ItemGroup>
+  <!-- The webhook endpoint sample needs ASP.NET Core, which also brings configuration; the library itself needs neither. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 </Project>

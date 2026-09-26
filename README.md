@@ -137,6 +137,50 @@ with no key stops the host at start, and the message names the setting to fix.
 
 Both samples are compiled by CI from [samples/FreeTierMail.Samples](samples/FreeTierMail.Samples).
 
+## Bounces and complaints
+
+Sending again to an address that bounced or complained hurts every account's reputation, and a
+free tier is the first thing a provider takes away. A hard bounce or spam complaint reported by
+any provider's webhook goes on one suppression list, and the mailer then skips that address at
+every provider: `SendResult.Suppressed` is true and no provider is tried.
+
+| Provider | Webhook check | Events that suppress |
+| --- | --- | --- |
+| Resend | Svix signature (`whsec_` secret), 5-minute replay window | `email.bounced` with bounce type `Permanent`, `email.complained` |
+| Mailgun | HMAC of timestamp and token (webhook signing key), 5-minute window | `failed` with severity `permanent`, `complained` |
+| MailerSend | HMAC of the body (`Signature` header) | `activity.hard_bounced`, `activity.spam_complaint` |
+| Brevo | no signature documented: a bearer token or basic-auth password you set on the webhook | `hard_bounce`, `spam` |
+| Mailjet | no signature documented: basic authentication in the webhook URL | `bounce` with `hard_bounce` true, `spam` |
+
+SMTP2GO and Elastic Email webhooks are not read yet. Brevo's and Mailjet's credential and payload
+details come from their guides and are still to be confirmed against a live webhook.
+
+```csharp
+builder.Services.AddFreeTierMail(builder.Configuration.GetSection("FreeTierMail"))
+    .AddBrevo().AddResend()
+    .AddWebhook(new ResendWebhook(builder.Configuration["Webhooks:Resend"]!))
+    .AddWebhook(new BrevoWebhook(builder.Configuration["Webhooks:Brevo"]!));
+
+// One endpoint for every provider: /webhooks/email/resend, /webhooks/email/brevo.
+app.MapPost("/webhooks/email/{provider}", async (string provider, HttpRequest request, WebhookReceiver receiver, CancellationToken cancellationToken) =>
+{
+    using var body = new MemoryStream();
+    await request.Body.CopyToAsync(body, cancellationToken);
+    var headers = request.Headers.Select(h => new KeyValuePair<string, string>(h.Key, h.Value.ToString()));
+    return await receiver.ReceiveAsync(provider, new WebhookRequest(headers, body.ToArray()), cancellationToken) switch
+    {
+        WebhookResult.Accepted => Results.Ok(),
+        WebhookResult.Unauthorized => Results.Unauthorized(),
+        WebhookResult.UnknownProvider => Results.NotFound(),
+        _ => Results.BadRequest(),
+    };
+}).DisableAntiforgery();
+```
+
+The list lives in `InMemorySuppressionStore` by default. Implement `ISuppressionStore` over your
+database to keep it across restarts and share it between instances. Remove an address with
+`RemoveAsync` when the recipient fixes their mailbox.
+
 ## Several app instances
 
 The quota counts live in `InMemoryQuotaStore` by default, which is right for one instance. A
@@ -170,6 +214,8 @@ subject, body or key; a test checks that.
 - API keys are never logged, traced, put in an exception or printed by `ToString`.
 - `EmailAddress` accepts one bare address and refuses line breaks, so a header cannot be
   smuggled in through an address, name or subject.
+- Webhooks are verified before their body is read, with constant-time comparison; a call that
+  fails the check changes nothing. A suppression prints no address.
 - Report a vulnerability as [SECURITY.md](SECURITY.md) describes, not in a public issue.
 
 ## License

@@ -1,14 +1,17 @@
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using FreeTierMail;
 using FreeTierMail.Brevo;
+using FreeTierMail.MailerSend;
 using FreeTierMail.Resend;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 // Brevo answers 503, so the mailer fails over to Resend; then the DI path sends through Mailjet
-// bound from configuration. Under Native AOT this exercises every provider's source-generated JSON,
-// the routing, and configuration binding without reflection.
+// bound from configuration; last a signed MailerSend webhook suppresses the rider, and the next send
+// is stopped. Under Native AOT this exercises every provider's source-generated JSON, the routing,
+// configuration binding without reflection, and webhook parsing.
 using var http = new HttpClient(new ProviderStub());
 var direct = new FreeTierMailer(
 [
@@ -42,6 +45,19 @@ var second = await provider.GetRequiredService<FreeTierMailer>().SendAsync(messa
 if (second is not { Status: SendStatus.Sent, Provider: "mailjet" })
 {
     Console.Error.WriteLine($"FAIL: DI send was {second.Status} through {second.Provider}");
+    return 1;
+}
+
+var store = new InMemorySuppressionStore();
+var receiver = new WebhookReceiver([new MailerSendWebhook("test-secret-000000000000")], store);
+var hook = """{"type":"activity.hard_bounced","data":{"recipient":"rider@example.com"}}"""u8.ToArray();
+var signature = Convert.ToHexStringLower(HMACSHA256.HashData("test-secret-000000000000"u8, hook));
+var received = await receiver.ReceiveAsync("mailersend", new WebhookRequest([new("Signature", signature)], hook));
+var suppressed = await new FreeTierMailer([new BrevoProvider(http, new BrevoOptions { ApiKey = "test-key-0000000000000000", Daily = 300 })], new FreeTierMailerOptions { SuppressionStore = store })
+    .SendAsync(new EmailMessage(message.From, message.To, "Sign in") { TextBody = "Open the link to sign in." });
+if (received != WebhookResult.Accepted || !suppressed.Suppressed)
+{
+    Console.Error.WriteLine($"FAIL: webhook {received}, suppressed {suppressed.Suppressed}");
     return 1;
 }
 

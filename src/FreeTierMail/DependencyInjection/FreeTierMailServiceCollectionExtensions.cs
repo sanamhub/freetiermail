@@ -50,11 +50,13 @@ public static class FreeTierMailServiceCollectionExtensions
     {
         services.AddOptions<FreeTierMailerOptions>().Configure(configure);
         services.TryAddSingleton<IQuotaStore, InMemoryQuotaStore>();
+        services.TryAddSingleton<ISuppressionStore, InMemorySuppressionStore>();
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton(provider =>
         {
             var options = provider.GetRequiredService<IOptions<FreeTierMailerOptions>>().Value;
             options.QuotaStore ??= provider.GetRequiredService<IQuotaStore>();
+            options.SuppressionStore ??= provider.GetRequiredService<ISuppressionStore>();
             options.TimeProvider ??= provider.GetRequiredService<TimeProvider>();
             return new FreeTierMailer(provider.GetServices<IEmailProvider>(), options, provider.GetService<ILogger<FreeTierMailer>>());
         });
@@ -81,6 +83,31 @@ public static class FreeTierMailServiceCollectionExtensions
         {
             options.FailoverOnUnknown = bool.Parse(failover);
         }
+    }
+}
+
+/// <summary>Adds provider webhooks that feed the mailer's suppression list.</summary>
+public static class FreeTierMailWebhookBuilderExtensions
+{
+    /// <summary>
+    /// Adds <paramref name="webhook"/> and a singleton <see cref="WebhookReceiver"/> over every
+    /// webhook added, writing to the same <see cref="ISuppressionStore"/> the mailer reads. Map an
+    /// endpoint to <see cref="WebhookReceiver.ReceiveAsync"/> (see the README).
+    /// </summary>
+    /// <param name="builder">The builder.</param>
+    /// <param name="webhook">The provider's webhook, for example a <c>ResendWebhook</c>.</param>
+    /// <returns>The builder, for chaining.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="builder"/> or <paramref name="webhook"/> is null.</exception>
+    public static IFreeTierMailBuilder AddWebhook(this IFreeTierMailBuilder builder, EmailWebhook webhook)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(webhook);
+        builder.Services.AddSingleton(webhook);
+        builder.Services.TryAddSingleton(provider => new WebhookReceiver(
+            provider.GetServices<EmailWebhook>(),
+            provider.GetRequiredService<ISuppressionStore>(),
+            provider.GetService<TimeProvider>()));
+        return builder;
     }
 }
 

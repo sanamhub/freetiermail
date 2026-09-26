@@ -34,6 +34,9 @@ public sealed class FreeTierMailerOptions
     /// </summary>
     public bool FailoverOnUnknown { get; set; }
 
+    /// <summary>Addresses no provider sends to. None when null: every address is tried.</summary>
+    public ISuppressionStore? SuppressionStore { get; set; }
+
     /// <summary>Where quota use is counted. A new <see cref="InMemoryQuotaStore"/> when null.</summary>
     public IQuotaStore? QuotaStore { get; set; }
 

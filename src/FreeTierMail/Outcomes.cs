@@ -91,4 +91,7 @@ public sealed record SendResult(SendStatus Status, IReadOnlyList<SendAttempt> At
 
     /// <summary>True when this result was stored for the same idempotency key and nothing was sent now.</summary>
     public bool IsReplay { get; init; }
+
+    /// <summary>True when a recipient is on the suppression list, so no provider was tried.</summary>
+    public bool Suppressed { get; init; }
 }

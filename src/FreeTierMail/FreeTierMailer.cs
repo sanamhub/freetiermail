@@ -110,9 +110,11 @@ public sealed partial class FreeTierMailer
     private async Task<SendResult> SendCoreAsync(EmailMessage message, CancellationToken cancellationToken)
     {
         using var activity = FreeTierMailDiagnostics.Source.StartActivity(FreeTierMailDiagnostics.SendActivityName, ActivityKind.Client);
-        var result = await RouteAsync(message, cancellationToken).ConfigureAwait(false);
+        var result = await IsSuppressedAsync(message, cancellationToken).ConfigureAwait(false)
+            ? new SendResult(SendStatus.Failed, []) { Suppressed = true }
+            : await RouteAsync(message, cancellationToken).ConfigureAwait(false);
 
-        var status = StatusName(result.Status);
+        var status = result.Suppressed ? "suppressed" : StatusName(result.Status);
         foreach (var attempt in result.Attempts)
         {
             FreeTierMailDiagnostics.Attempts.Add(1, new(FreeTierMailDiagnostics.ProviderTag, attempt.Provider), new(FreeTierMailDiagnostics.StatusTag, OutcomeName(attempt.Outcome)));
@@ -133,6 +135,26 @@ public sealed partial class FreeTierMailer
         }
 
         return result;
+    }
+
+    // One suppressed recipient stops the whole message: the others would share its envelope.
+    private async Task<bool> IsSuppressedAsync(EmailMessage message, CancellationToken cancellationToken)
+    {
+        if (_options.SuppressionStore is not { } store)
+        {
+            return false;
+        }
+
+        foreach (var recipient in message.To.Concat(message.Cc).Concat(message.Bcc))
+        {
+            if (await store.FindAsync(recipient.Address, cancellationToken).ConfigureAwait(false) is not null)
+            {
+                LogSuppressed(_logger);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private async Task<SendResult> RouteAsync(EmailMessage message, CancellationToken cancellationToken)
@@ -330,6 +352,10 @@ public sealed partial class FreeTierMailer
 
     [LoggerMessage(EventId = 6, Level = LogLevel.Error, Message = "{Provider} threw {ExceptionType} instead of returning an outcome")]
     private static partial void LogProviderThrew(ILogger logger, string provider, string exceptionType);
+
+    // No address in the message: it is personal data (ADR-0005).
+    [LoggerMessage(EventId = 7, Level = LogLevel.Information, Message = "A recipient is on the suppression list; no provider was tried")]
+    private static partial void LogSuppressed(ILogger logger);
 
     private sealed class ProviderState(IEmailProvider provider, int index)
     {

@@ -18,3 +18,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Native AOT, and options validated at start.
 - `FreeTierMail.Smtp`: any SMTP relay, through MailKit.
 - `FreeTierMail.Testing`: a fake provider and the contract tests every provider passes.
+- Suppression list: `ISuppressionStore` and `InMemorySuppressionStore`. A suppressed recipient
+  stops the send before any provider, and `SendResult.Suppressed` says so.
+- Webhooks for Resend, Mailgun and MailerSend (signatures checked) and Brevo and Mailjet (shared
+  secret), read by `WebhookReceiver` into the suppression list. `AddWebhook()` registers them.
