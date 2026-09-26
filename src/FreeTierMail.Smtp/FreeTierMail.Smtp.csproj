@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>FreeTierMail.Smtp</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>FreeTierMail.Smtp</PackageId>
+    <Description>SMTP provider for FreeTierMail, through MailKit: any relay with a login, for providers without an HTTP API or as a paid fallback. Tells a failed connection (nothing sent) from a dropped send (maybe sent).</Description>
+    <PackageTags>email;smtp;mailkit;freetiermail</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
+    <ProjectReference Include="../FreeTierMail.Extensions.DependencyInjection/FreeTierMail.Extensions.DependencyInjection.csproj" />
+    <PackageReference Include="MailKit" />
+    <InternalsVisibleTo Include="FreeTierMail.Smtp.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
