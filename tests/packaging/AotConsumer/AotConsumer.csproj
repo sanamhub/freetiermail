@@ -16,10 +16,6 @@
   <ItemGroup>
     <TrimmerRootAssembly Include="FreeTierMail" />
     <PackageReference Include="FreeTierMail" Version="$(FreeTierMailVersion)" />
-    <PackageReference Include="FreeTierMail.Brevo" Version="$(FreeTierMailVersion)" />
-    <PackageReference Include="FreeTierMail.Resend" Version="$(FreeTierMailVersion)" />
-    <PackageReference Include="FreeTierMail.Mailjet" Version="$(FreeTierMailVersion)" />
-    <PackageReference Include="FreeTierMail.Extensions.DependencyInjection" Version="$(FreeTierMailVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
   </ItemGroup>

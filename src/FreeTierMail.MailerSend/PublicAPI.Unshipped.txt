@@ -1,7 +1,0 @@
-#nullable enable
-FreeTierMail.MailerSend.MailerSendOptions
-FreeTierMail.MailerSend.MailerSendOptions.MailerSendOptions() -> void
-FreeTierMail.MailerSend.MailerSendProvider
-FreeTierMail.MailerSend.MailerSendProvider.MailerSendProvider(System.Net.Http.HttpClient! http, FreeTierMail.MailerSend.MailerSendOptions! options) -> void
-Microsoft.Extensions.DependencyInjection.MailerSendFreeTierMailBuilderExtensions
-static Microsoft.Extensions.DependencyInjection.MailerSendFreeTierMailBuilderExtensions.AddMailerSend(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "mailersend", System.Action<FreeTierMail.MailerSend.MailerSendOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!

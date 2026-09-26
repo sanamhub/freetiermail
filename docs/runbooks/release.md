@@ -38,8 +38,10 @@ For the maintainer. SemVer, changelog, green CI, approval, rollback plan, post-r
 ## Tag and publish
 
 1. `git tag v<version>` and push the tag.
-2. The release workflow runs preflight, then verify. Open the `release-files` artifact and check
-   each `.nupkg` dependency group: nothing beyond the packages in `Directory.Packages.props`.
+2. The release workflow runs preflight, then verify. Open the `release-files` artifact: it holds
+   three packages, `FreeTierMail`, `FreeTierMail.Smtp` and `FreeTierMail.Testing`, each with its
+   `.snupkg`. Check each `.nupkg` dependency group: nothing beyond the packages in
+   `Directory.Packages.props`, and MailKit only in `FreeTierMail.Smtp`.
 3. Approve the `production` deployment. The core is pushed first, then the rest.
 4. `verify-published` then downloads every package from nuget.org and consumes it, plain and
    under Native AOT. It waits up to 45 minutes for indexing. If it fails on a timeout alone, run

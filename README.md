@@ -38,33 +38,40 @@ usually breaks that provider's terms.
 
 ## Providers
 
-| Package | Free tier, checked 2026-09-26 |
-| --- | --- |
-| [`FreeTierMail.Brevo`](src/FreeTierMail.Brevo/PACKAGE.md) | 300 a day, shared by marketing and transactional mail (from 2026 reviews; Brevo's page did not load for us) |
-| [`FreeTierMail.Mailjet`](src/FreeTierMail.Mailjet/PACKAGE.md) | 6,000 a month, 200 a day |
-| [`FreeTierMail.Resend`](src/FreeTierMail.Resend/PACKAGE.md) | 3,000 a month, 100 a day |
-| [`FreeTierMail.Mailgun`](src/FreeTierMail.Mailgun/PACKAGE.md) | 100 a day, one custom domain |
-| [`FreeTierMail.ElasticEmail`](src/FreeTierMail.ElasticEmail/PACKAGE.md) | 3,000 a month, 100 a day |
-| [`FreeTierMail.Smtp2Go`](src/FreeTierMail.Smtp2Go/PACKAGE.md) | 1,000 a month |
-| [`FreeTierMail.MailerSend`](src/FreeTierMail.MailerSend/PACKAGE.md) | 500 a month, 100 API requests a day |
-| [`FreeTierMail.Smtp`](src/FreeTierMail.Smtp/PACKAGE.md) | any SMTP relay, for a provider without an API or a paid fallback |
+Three packages:
+
+- [`FreeTierMail`](src/FreeTierMail/PACKAGE.md): the mailer, quota tracking, `AddFreeTierMail()`
+  for dependency injection, and every HTTP provider below. The providers add no dependency, and
+  Native AOT trimming drops the ones you do not register.
+- [`FreeTierMail.Smtp`](src/FreeTierMail.Smtp/PACKAGE.md): any SMTP relay, through MailKit, for a
+  provider without an API or a paid fallback. Separate so only SMTP users download MailKit.
+- [`FreeTierMail.Testing`](src/FreeTierMail.Testing/PACKAGE.md): a fake provider and the contract
+  tests every provider passes.
+
+| Provider | Namespace | Free tier, checked 2026-09-26 |
+| --- | --- | --- |
+| Brevo | `FreeTierMail.Brevo` | 300 a day, shared by marketing and transactional mail (from 2026 reviews; Brevo's page did not load for us) |
+| Mailjet | `FreeTierMail.Mailjet` | 6,000 a month, 200 a day |
+| Resend | `FreeTierMail.Resend` | 3,000 a month, 100 a day |
+| Mailgun | `FreeTierMail.Mailgun` | 100 a day, one custom domain |
+| Elastic Email | `FreeTierMail.ElasticEmail` | 3,000 a month, 100 a day |
+| SMTP2GO | `FreeTierMail.Smtp2Go` | 1,000 a month |
+| MailerSend | `FreeTierMail.MailerSend` | 500 a month, 100 API requests a day |
+| Any SMTP relay | `FreeTierMail.Smtp` (package `FreeTierMail.Smtp`) | whatever your relay allows |
 
 Free tiers change without notice. The numbers are configuration, never constants: set `Daily` and
 `Monthly` to what your plan says. SendGrid has had no free plan since May 2025, so it is not
 listed.
-
-Also: [`FreeTierMail.Extensions.DependencyInjection`](src/FreeTierMail.Extensions.DependencyInjection/PACKAGE.md)
-for `AddFreeTierMail()`, and [`FreeTierMail.Testing`](src/FreeTierMail.Testing/PACKAGE.md) for a
-fake provider and the contract tests every provider passes.
 
 ## Install
 
 Not on nuget.org yet. Once it is:
 
 ```
-dotnet add package FreeTierMail.Brevo
-dotnet add package FreeTierMail.Resend
+dotnet add package FreeTierMail
 ```
+
+Add `FreeTierMail.Smtp` only if you send through an SMTP relay.
 
 ## Send a message
 

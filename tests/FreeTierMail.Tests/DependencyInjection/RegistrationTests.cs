@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace FreeTierMail.Extensions.DependencyInjection.Tests;
+namespace FreeTierMail.Tests.DependencyInjection;
 
 public sealed class RegistrationTests
 {

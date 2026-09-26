@@ -22,7 +22,7 @@ done
 PACKAGE_DIR="$(cd "$PACKAGE_DIR" && pwd)"
 
 # The core package's file name has the version digit right after "FreeTierMail.". The other
-# packages (FreeTierMail.Something.x.y.z) do not, so this glob finds the core alone.
+# packages (FreeTierMail.Smtp.x.y.z, FreeTierMail.Testing.x.y.z) do not, so this glob finds the core alone.
 PACKAGES=("$PACKAGE_DIR"/FreeTierMail.[0-9]*.nupkg)
 if [ ! -f "${PACKAGES[0]}" ]; then
   echo "no FreeTierMail package found in $PACKAGE_DIR" >&2
@@ -82,7 +82,6 @@ cat > consumer.csproj <<XML
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FreeTierMail" Version="$VERSION" />
-    <PackageReference Include="FreeTierMail.Resend" Version="$VERSION" />
   </ItemGroup>
 </Project>
 XML

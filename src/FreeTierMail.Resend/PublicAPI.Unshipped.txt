@@ -1,7 +1,0 @@
-#nullable enable
-FreeTierMail.Resend.ResendOptions
-FreeTierMail.Resend.ResendOptions.ResendOptions() -> void
-FreeTierMail.Resend.ResendProvider
-FreeTierMail.Resend.ResendProvider.ResendProvider(System.Net.Http.HttpClient! http, FreeTierMail.Resend.ResendOptions! options) -> void
-Microsoft.Extensions.DependencyInjection.ResendFreeTierMailBuilderExtensions
-static Microsoft.Extensions.DependencyInjection.ResendFreeTierMailBuilderExtensions.AddResend(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "resend", System.Action<FreeTierMail.Resend.ResendOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
