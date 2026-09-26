@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
+    <ProjectReference Include="../FreeTierMail.Extensions.DependencyInjection/FreeTierMail.Extensions.DependencyInjection.csproj" />
     <InternalsVisibleTo Include="FreeTierMail.Mailjet.Tests" />
   </ItemGroup>
   <ItemGroup>

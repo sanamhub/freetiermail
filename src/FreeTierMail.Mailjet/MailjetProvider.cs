@@ -23,7 +23,8 @@ public sealed class MailjetOptions : EmailProviderOptions
     public string SecretKey { get; set; } = string.Empty;
 
     /// <inheritdoc/>
-    protected override void Validate(string providerName)
+    /// <exception cref="ArgumentException">A key is missing, or a limit is out of range.</exception>
+    public override void Validate(string providerName)
     {
         base.Validate(providerName);
         if (string.IsNullOrWhiteSpace(SecretKey))

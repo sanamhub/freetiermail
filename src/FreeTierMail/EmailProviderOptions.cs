@@ -39,10 +39,10 @@ public abstract class EmailProviderOptions
     /// <returns>A redacted description.</returns>
     public override string ToString() => $"{GetType().Name}(Name: {Name}, ApiKey: ***, Daily: {Daily}, Monthly: {Monthly})";
 
-    /// <summary>Checks the options a provider needs before its first send.</summary>
+    /// <summary>Checks the options a provider needs before its first send. Providers call it in their constructor; the DI package calls it at start.</summary>
     /// <param name="providerName">The provider, for the message.</param>
-    /// <exception cref="ArgumentException">The key is missing, or a limit or reset day is out of range.</exception>
-    protected internal virtual void Validate(string providerName)
+    /// <exception cref="ArgumentException">The key is missing, a limit or reset day is out of range, or the time zone is unknown.</exception>
+    public virtual void Validate(string providerName)
     {
         if (string.IsNullOrWhiteSpace(ApiKey))
         {
@@ -52,6 +52,11 @@ public abstract class EmailProviderOptions
         if (Daily is <= 0 || Monthly is <= 0 || MonthlyResetDay is < 1 or > 28)
         {
             throw new ArgumentException($"{providerName}: Daily and Monthly are positive when set, and MonthlyResetDay is 1 to 28.");
+        }
+
+        if (ResetTimeZone is not null && !TimeZoneInfo.TryFindSystemTimeZoneById(ResetTimeZone, out _))
+        {
+            throw new ArgumentException($"{providerName}: ResetTimeZone '{ResetTimeZone}' is not a known time zone id.");
         }
     }
 }

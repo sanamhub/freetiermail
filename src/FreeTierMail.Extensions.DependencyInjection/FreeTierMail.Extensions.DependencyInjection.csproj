@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>FreeTierMail</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>FreeTierMail.Extensions.DependencyInjection</PackageId>
+    <Description>Registers FreeTierMail in Microsoft.Extensions.DependencyInjection: AddFreeTierMail() with configuration binding that works under Native AOT, named HttpClients without request logging, and options validated at start.</Description>
+    <PackageTags>email;dependency-injection;configuration;freetiermail</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

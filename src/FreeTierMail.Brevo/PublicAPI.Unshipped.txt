@@ -3,3 +3,5 @@ FreeTierMail.Brevo.BrevoOptions
 FreeTierMail.Brevo.BrevoOptions.BrevoOptions() -> void
 FreeTierMail.Brevo.BrevoProvider
 FreeTierMail.Brevo.BrevoProvider.BrevoProvider(System.Net.Http.HttpClient! http, FreeTierMail.Brevo.BrevoOptions! options) -> void
+Microsoft.Extensions.DependencyInjection.BrevoFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.BrevoFreeTierMailBuilderExtensions.AddBrevo(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "brevo", System.Action<FreeTierMail.Brevo.BrevoOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
