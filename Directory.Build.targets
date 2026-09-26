@@ -1,0 +1,26 @@
+<Project>
+  <!-- In Directory.Build.targets, not .props: the props file is read before the project file, so
+       a project's own IsPackable is still empty there and this condition would match the test
+       projects too. -->
+  <PropertyGroup Label="Packaging" Condition="'$(IsPackable)' != 'false'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- Compares the package against the previous one once PackageValidationBaselineVersion is set
+         at 1.0; until then it still checks the package is internally consistent. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!-- Each project packs its own PACKAGE.md. nuget.org cannot resolve relative links, so every
+         link in it is absolute. -->
+    <PackageReadmeFile>PACKAGE.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- Tracks the public surface of every shipped library. A public member missing from
+       PublicAPI.Unshipped.txt fails the build (RS0016), which is the gate for AGENTS.md rule 3. -->
+  <ItemGroup Condition="$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(MSBuildProjectDirectory)).StartsWith('src'))">
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+</Project>

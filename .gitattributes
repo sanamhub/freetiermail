@@ -1,0 +1,16 @@
+# Normalise to LF in the repository; .editorconfig sets end_of_line = lf.
+* text=auto eol=lf
+
+*.sln    text eol=crlf
+*.ps1    text eol=crlf
+*.cmd    text eol=crlf
+
+*.sh     text eol=lf
+
+# Never text. A binary fixture (image, PDF, map extract) must not be normalised.
+*.png    binary
+*.jpg    binary
+*.pdf    binary
+*.pbf    binary
+*.nupkg  binary
+*.snupkg binary

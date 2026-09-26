@@ -1,0 +1,35 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- Audit direct and transitive packages. High and critical advisories fail restore through
+         TreatWarningsAsErrors; low and moderate stay warnings. Do not add NU1903 or NU1904 below:
+         ada-csharp exempted all four, and its audit never failed a build (checked 2026-09-25). -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+    <WarningsNotAsErrors>NU1901;NU1902</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Repository">
+    <Product>FreeTierMail</Product>
+    <Company>FreeTierMail contributors</Company>
+    <Authors>FreeTierMail contributors</Authors>
+    <Copyright>Copyright (c) FreeTierMail contributors</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/sanamhub/freetiermail</RepositoryUrl>
+    <!-- Lockstep: every package ships at this version (ADR-0003). release.yml reads it from here. -->
+    <Version>0.1.0-alpha.1</Version>
+  </PropertyGroup>
+</Project>
