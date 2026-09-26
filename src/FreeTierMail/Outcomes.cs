@@ -38,6 +38,9 @@ public sealed record ProviderResult(ProviderOutcome Outcome)
     /// <summary>When the provider asked to wait before the next send, if it said.</summary>
     public TimeSpan? RetryAfter { get; init; }
 
+    /// <summary>For <see cref="ProviderOutcome.QuotaExhausted"/>: which quota, when the provider said. Null marks the one that resets soonest.</summary>
+    public QuotaPeriod? ExhaustedPeriod { get; init; }
+
     /// <summary>FreeTierMail's own short description. Never the provider's response body, which can echo addresses.</summary>
     public string? Reason { get; init; }
 

@@ -9,6 +9,9 @@ public interface IEmailProvider
     /// <summary>A unique name for this provider in the mailer, used in results, logs and quota keys.</summary>
     string Name { get; }
 
+    /// <summary>The account's quotas. <see cref="QuotaPlan.Unlimited"/> for a paid account with no cap.</summary>
+    QuotaPlan Quota { get; }
+
     /// <summary>True to try this provider first for <see cref="EmailPriority.Critical"/> messages.</summary>
     bool PreferForCritical { get; }
 

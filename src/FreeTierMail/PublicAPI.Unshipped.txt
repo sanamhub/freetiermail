@@ -43,7 +43,19 @@ FreeTierMail.EmailPriority.Normal = 0 -> FreeTierMail.EmailPriority
 FreeTierMail.IEmailProvider
 FreeTierMail.IEmailProvider.Name.get -> string!
 FreeTierMail.IEmailProvider.PreferForCritical.get -> bool
+FreeTierMail.IEmailProvider.Quota.get -> FreeTierMail.QuotaPlan!
 FreeTierMail.IEmailProvider.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.ProviderResult!>!
+FreeTierMail.IQuotaStore
+FreeTierMail.IQuotaStore.GetUsageAsync(string! provider, FreeTierMail.QuotaPlan! plan, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaUsage!>!>!
+FreeTierMail.IQuotaStore.MarkExhaustedAsync(string! provider, FreeTierMail.QuotaWindow! window, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.IQuotaStore.ReleaseAsync(FreeTierMail.QuotaReservation! reservation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.IQuotaStore.TryReserveAsync(string! provider, FreeTierMail.QuotaPlan! plan, FreeTierMail.EmailPriority priority, double criticalReserve, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.QuotaReservation?>!
+FreeTierMail.InMemoryQuotaStore
+FreeTierMail.InMemoryQuotaStore.GetUsageAsync(string! provider, FreeTierMail.QuotaPlan! plan, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaUsage!>!>!
+FreeTierMail.InMemoryQuotaStore.InMemoryQuotaStore() -> void
+FreeTierMail.InMemoryQuotaStore.MarkExhaustedAsync(string! provider, FreeTierMail.QuotaWindow! window, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.InMemoryQuotaStore.ReleaseAsync(FreeTierMail.QuotaReservation! reservation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.InMemoryQuotaStore.TryReserveAsync(string! provider, FreeTierMail.QuotaPlan! plan, FreeTierMail.EmailPriority priority, double criticalReserve, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.QuotaReservation?>!
 FreeTierMail.ProviderOutcome
 FreeTierMail.ProviderOutcome.Accepted = 0 -> FreeTierMail.ProviderOutcome
 FreeTierMail.ProviderOutcome.ProviderFault = 4 -> FreeTierMail.ProviderOutcome
@@ -58,6 +70,8 @@ static FreeTierMail.ProviderResult.Accepted(string? providerMessageId = null) ->
 FreeTierMail.ProviderResult.Deconstruct(out FreeTierMail.ProviderOutcome Outcome) -> void
 FreeTierMail.ProviderResult.Equals(FreeTierMail.ProviderResult? other) -> bool
 override FreeTierMail.ProviderResult.Equals(object? obj) -> bool
+FreeTierMail.ProviderResult.ExhaustedPeriod.get -> FreeTierMail.QuotaPeriod?
+FreeTierMail.ProviderResult.ExhaustedPeriod.init -> void
 override FreeTierMail.ProviderResult.GetHashCode() -> int
 static FreeTierMail.ProviderResult.Of(FreeTierMail.ProviderOutcome outcome, string! reason, System.TimeSpan? retryAfter = null) -> FreeTierMail.ProviderResult!
 FreeTierMail.ProviderResult.Outcome.get -> FreeTierMail.ProviderOutcome
@@ -72,6 +86,68 @@ FreeTierMail.ProviderResult.RetryAfter.init -> void
 override FreeTierMail.ProviderResult.ToString() -> string!
 static FreeTierMail.ProviderResult.operator !=(FreeTierMail.ProviderResult? left, FreeTierMail.ProviderResult? right) -> bool
 static FreeTierMail.ProviderResult.operator ==(FreeTierMail.ProviderResult? left, FreeTierMail.ProviderResult? right) -> bool
+FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaPeriod.Daily = 0 -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaPeriod.Monthly = 1 -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaPlan
+static FreeTierMail.QuotaPlan.From(int? daily, int? monthly, System.TimeZoneInfo? timeZone = null, int monthlyResetDay = 1) -> FreeTierMail.QuotaPlan!
+FreeTierMail.QuotaPlan.QuotaPlan(System.Collections.Generic.IEnumerable<FreeTierMail.QuotaWindow!>! windows) -> void
+static FreeTierMail.QuotaPlan.Unlimited.get -> FreeTierMail.QuotaPlan!
+FreeTierMail.QuotaPlan.Windows.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaWindow!>!
+FreeTierMail.QuotaReservation
+FreeTierMail.QuotaReservation.<Clone>$() -> FreeTierMail.QuotaReservation!
+FreeTierMail.QuotaReservation.Deconstruct(out string! Provider, out System.Collections.Generic.IReadOnlyList<string!>! Keys) -> void
+FreeTierMail.QuotaReservation.Equals(FreeTierMail.QuotaReservation? other) -> bool
+override FreeTierMail.QuotaReservation.Equals(object? obj) -> bool
+override FreeTierMail.QuotaReservation.GetHashCode() -> int
+FreeTierMail.QuotaReservation.Keys.get -> System.Collections.Generic.IReadOnlyList<string!>!
+FreeTierMail.QuotaReservation.Keys.init -> void
+FreeTierMail.QuotaReservation.Provider.get -> string!
+FreeTierMail.QuotaReservation.Provider.init -> void
+FreeTierMail.QuotaReservation.QuotaReservation(string! Provider, System.Collections.Generic.IReadOnlyList<string!>! Keys) -> void
+override FreeTierMail.QuotaReservation.ToString() -> string!
+static FreeTierMail.QuotaReservation.operator !=(FreeTierMail.QuotaReservation? left, FreeTierMail.QuotaReservation? right) -> bool
+static FreeTierMail.QuotaReservation.operator ==(FreeTierMail.QuotaReservation? left, FreeTierMail.QuotaReservation? right) -> bool
+FreeTierMail.QuotaUsage
+FreeTierMail.QuotaUsage.<Clone>$() -> FreeTierMail.QuotaUsage!
+FreeTierMail.QuotaUsage.Deconstruct(out string! Provider, out FreeTierMail.QuotaPeriod Period, out int Limit, out int Used, out System.DateTimeOffset ResetsAt, out bool Exhausted) -> void
+FreeTierMail.QuotaUsage.Equals(FreeTierMail.QuotaUsage? other) -> bool
+override FreeTierMail.QuotaUsage.Equals(object? obj) -> bool
+FreeTierMail.QuotaUsage.Exhausted.get -> bool
+FreeTierMail.QuotaUsage.Exhausted.init -> void
+override FreeTierMail.QuotaUsage.GetHashCode() -> int
+FreeTierMail.QuotaUsage.Limit.get -> int
+FreeTierMail.QuotaUsage.Limit.init -> void
+FreeTierMail.QuotaUsage.Period.get -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaUsage.Period.init -> void
+FreeTierMail.QuotaUsage.Provider.get -> string!
+FreeTierMail.QuotaUsage.Provider.init -> void
+FreeTierMail.QuotaUsage.QuotaUsage(string! Provider, FreeTierMail.QuotaPeriod Period, int Limit, int Used, System.DateTimeOffset ResetsAt, bool Exhausted) -> void
+FreeTierMail.QuotaUsage.ResetsAt.get -> System.DateTimeOffset
+FreeTierMail.QuotaUsage.ResetsAt.init -> void
+override FreeTierMail.QuotaUsage.ToString() -> string!
+FreeTierMail.QuotaUsage.Used.get -> int
+FreeTierMail.QuotaUsage.Used.init -> void
+static FreeTierMail.QuotaUsage.operator !=(FreeTierMail.QuotaUsage? left, FreeTierMail.QuotaUsage? right) -> bool
+static FreeTierMail.QuotaUsage.operator ==(FreeTierMail.QuotaUsage? left, FreeTierMail.QuotaUsage? right) -> bool
+FreeTierMail.QuotaWindow
+FreeTierMail.QuotaWindow.<Clone>$() -> FreeTierMail.QuotaWindow!
+FreeTierMail.QuotaWindow.Equals(FreeTierMail.QuotaWindow? other) -> bool
+override FreeTierMail.QuotaWindow.Equals(object? obj) -> bool
+override FreeTierMail.QuotaWindow.GetHashCode() -> int
+FreeTierMail.QuotaWindow.KeyFor(System.DateTimeOffset now) -> string!
+FreeTierMail.QuotaWindow.Limit.get -> int
+FreeTierMail.QuotaWindow.NextReset(System.DateTimeOffset now) -> System.DateTimeOffset
+FreeTierMail.QuotaWindow.Period.get -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaWindow.QuotaWindow(FreeTierMail.QuotaPeriod period, int limit) -> void
+FreeTierMail.QuotaWindow.ResetDay.get -> int
+FreeTierMail.QuotaWindow.ResetDay.init -> void
+FreeTierMail.QuotaWindow.StartOf(System.DateTimeOffset now) -> System.DateTimeOffset
+FreeTierMail.QuotaWindow.TimeZone.get -> System.TimeZoneInfo!
+FreeTierMail.QuotaWindow.TimeZone.init -> void
+override FreeTierMail.QuotaWindow.ToString() -> string!
+static FreeTierMail.QuotaWindow.operator !=(FreeTierMail.QuotaWindow? left, FreeTierMail.QuotaWindow? right) -> bool
+static FreeTierMail.QuotaWindow.operator ==(FreeTierMail.QuotaWindow? left, FreeTierMail.QuotaWindow? right) -> bool
 FreeTierMail.SendAttempt
 FreeTierMail.SendAttempt.<Clone>$() -> FreeTierMail.SendAttempt!
 FreeTierMail.SendAttempt.Deconstruct(out string! Provider, out FreeTierMail.ProviderOutcome Outcome, out System.TimeSpan Duration, out string? Reason) -> void
