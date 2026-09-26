@@ -93,7 +93,7 @@ jobs:
       # sends directly through Brevo and Resend, then through AddFreeTierMail().AddMailjet().
       - name: publish and run the AOT consumer
         run: |
-          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*::p' Directory.Build.props)"
+          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props)"
           dotnet publish tests/packaging/AotConsumer -c Release -r linux-x64 -p:FreeTierMailVersion="$version" -o aot/AotConsumer
           test "$(./aot/AotConsumer/AotConsumer)" = "Delivered"
 
