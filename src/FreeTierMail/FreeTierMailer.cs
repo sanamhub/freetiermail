@@ -22,6 +22,7 @@ public sealed partial class FreeTierMailer
     private readonly TimeProvider _time;
     private readonly ILogger _logger;
     private readonly IdempotencyCache _idempotency;
+    private IReadOnlyList<QuotaUsage> _lastUsage = [];
 
     /// <summary>Creates a mailer.</summary>
     /// <param name="providers">The providers, in the order used for ties and by <see cref="RoutingStrategy.Ordered"/>.</param>
@@ -51,7 +52,11 @@ public sealed partial class FreeTierMailer
         _time = _options.TimeProvider ?? TimeProvider.System;
         _logger = (ILogger?)logger ?? NullLogger.Instance;
         _idempotency = new IdempotencyCache(_options.IdempotencyCapacity, _options.IdempotencyRetention, _time);
+        QuotaGauges.Register(this);
     }
+
+    /// <summary>The usage read after the last send, for the quota gauges. Empty until a send while a meter listens.</summary>
+    internal IReadOnlyList<QuotaUsage> LastUsage => _lastUsage;
 
     /// <summary>The providers' names, in configured order.</summary>
     public IReadOnlyList<string> ProviderNames => [.. _providers.Select(p => p.Provider.Name)];
@@ -103,6 +108,34 @@ public sealed partial class FreeTierMailer
     }
 
     private async Task<SendResult> SendCoreAsync(EmailMessage message, CancellationToken cancellationToken)
+    {
+        using var activity = FreeTierMailDiagnostics.Source.StartActivity(FreeTierMailDiagnostics.SendActivityName, ActivityKind.Client);
+        var result = await RouteAsync(message, cancellationToken).ConfigureAwait(false);
+
+        var status = StatusName(result.Status);
+        foreach (var attempt in result.Attempts)
+        {
+            FreeTierMailDiagnostics.Attempts.Add(1, new(FreeTierMailDiagnostics.ProviderTag, attempt.Provider), new(FreeTierMailDiagnostics.StatusTag, OutcomeName(attempt.Outcome)));
+        }
+
+        FreeTierMailDiagnostics.Sends.Add(1, new(FreeTierMailDiagnostics.ProviderTag, result.Provider ?? "none"), new(FreeTierMailDiagnostics.StatusTag, status));
+        if (activity is not null)
+        {
+            activity.SetTag(FreeTierMailDiagnostics.ProviderTag, result.Provider);
+            activity.SetTag(FreeTierMailDiagnostics.StatusTag, status);
+            activity.SetTag(FreeTierMailDiagnostics.AttemptsTag, result.Attempts.Count);
+            activity.SetStatus(result.Status == SendStatus.Sent ? ActivityStatusCode.Ok : ActivityStatusCode.Error);
+        }
+
+        if (QuotaGauges.Enabled)
+        {
+            await RefreshUsageAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        return result;
+    }
+
+    private async Task<SendResult> RouteAsync(EmailMessage message, CancellationToken cancellationToken)
     {
         var attempts = new List<SendAttempt>();
         string? unknownProvider = null;
@@ -252,6 +285,30 @@ public sealed partial class FreeTierMailer
 
         return shares.OrderByDescending(s => s.Share).ThenBy(s => s.State.Index).Select(s => s.State);
     }
+
+    private async Task RefreshUsageAsync(CancellationToken cancellationToken)
+    {
+        var usage = await GetUsageAsync(cancellationToken).ConfigureAwait(false);
+        _lastUsage = usage;
+    }
+
+    private static string StatusName(SendStatus status) => status switch
+    {
+        SendStatus.Sent => "sent",
+        SendStatus.Failed => "failed",
+        _ => "unknown",
+    };
+
+    private static string OutcomeName(ProviderOutcome outcome) => outcome switch
+    {
+        ProviderOutcome.Accepted => "accepted",
+        ProviderOutcome.RecipientRejected => "recipient_rejected",
+        ProviderOutcome.Throttled => "throttled",
+        ProviderOutcome.QuotaExhausted => "quota_exhausted",
+        ProviderOutcome.ProviderFault => "provider_fault",
+        ProviderOutcome.Unavailable => "unavailable",
+        _ => "unknown",
+    };
 
     private static DateTimeOffset NearestReset(QuotaPlan plan, DateTimeOffset now) =>
         plan.Windows.Count == 0 ? DateTimeOffset.MaxValue : plan.Windows.Min(w => w.NextReset(now));

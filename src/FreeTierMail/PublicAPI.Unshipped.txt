@@ -61,6 +61,18 @@ FreeTierMail.EmailProviderOptions.ResetTimeZone.set -> void
 FreeTierMail.EmailProviderOptions.ToQuotaPlan() -> FreeTierMail.QuotaPlan!
 override FreeTierMail.EmailProviderOptions.ToString() -> string!
 virtual FreeTierMail.EmailProviderOptions.Validate(string! providerName) -> void
+FreeTierMail.FreeTierMailDiagnostics
+const FreeTierMail.FreeTierMailDiagnostics.AttemptsMetric = "freetiermail.attempts" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.AttemptsTag = "freetiermail.attempts" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.MeterName = "FreeTierMail" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.PeriodTag = "freetiermail.period" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.ProviderTag = "freetiermail.provider" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.QuotaLimitMetric = "freetiermail.quota.limit" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.QuotaRemainingMetric = "freetiermail.quota.remaining" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.SendActivityName = "freetiermail.send" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.SendsMetric = "freetiermail.sends" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.SourceName = "FreeTierMail" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.StatusTag = "freetiermail.status" -> string!
 FreeTierMail.FreeTierMailer
 FreeTierMail.FreeTierMailer.Enable(string! provider) -> void
 FreeTierMail.FreeTierMailer.FreeTierMailer(System.Collections.Generic.IEnumerable<FreeTierMail.IEmailProvider!>! providers, FreeTierMail.FreeTierMailerOptions? options = null, Microsoft.Extensions.Logging.ILogger<FreeTierMail.FreeTierMailer!>? logger = null) -> void
