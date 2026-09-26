@@ -64,6 +64,45 @@ jobs:
           path: TestResults
           retention-days: 7
 
+  packaging:
+    # Consumes the packed packages from a clean project, then again under Native AOT. The library
+    # sets IsAotCompatible, and this is the only place that claim is tested end to end.
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+
+      # tests/packaging/NuGet.Config reads the packages from this folder.
+      - name: pack
+        run: dotnet pack -c Release -o artifacts/packages
+
+      - name: consume the packages
+        run: ./tests/packaging/verify-package.sh --package-dir artifacts/packages
+
+      - name: consume them under Native AOT
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+          ./tests/packaging/verify-package.sh --package-dir artifacts/packages --aot
+
+      # TreatWarningsAsErrors in the consumer turns any IL2xxx or IL3xxx warning into a failure. It
+      # sends directly through Brevo and Resend, then through AddFreeTierMail().AddMailjet().
+      - name: publish and run the AOT consumer
+        run: |
+          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*::p' Directory.Build.props)"
+          dotnet publish tests/packaging/AotConsumer -c Release -r linux-x64 -p:FreeTierMailVersion="$version" -o aot/AotConsumer
+          test "$(./aot/AotConsumer/AotConsumer)" = "Delivered"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nupkg
+          path: artifacts/packages/*.nupkg
+          retention-days: 7
+
   codeql:
     runs-on: ubuntu-24.04
     permissions:
