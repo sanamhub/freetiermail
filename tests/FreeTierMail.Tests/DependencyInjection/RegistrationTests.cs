@@ -54,6 +54,43 @@ public sealed class RegistrationTests
     }
 
     [Fact]
+    public async Task A_provider_switched_off_in_configuration_is_not_registered_or_checked()
+    {
+        var services = new ServiceCollection();
+        services.AddFreeTierMail(Section(new()
+        {
+            ["FreeTierMail:Providers:brevo:Enabled"] = "false",
+            ["FreeTierMail:Providers:resend:Enabled"] = "true",
+            ["FreeTierMail:Providers:resend:ApiKey"] = "test-key-resend",
+        })).AddBrevo().AddResend();
+        await using var provider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true });
+
+        Assert.Equal(["resend"], provider.GetRequiredService<FreeTierMailer>().ProviderNames);
+    }
+
+    [Fact]
+    public void Enabled_that_is_not_a_flag_is_refused_at_registration()
+    {
+        var builder = new ServiceCollection().AddFreeTierMail(Section(new() { ["FreeTierMail:Providers:brevo:Enabled"] = "no" }));
+
+        var error = Assert.Throws<FormatException>(() => builder.AddBrevo());
+
+        Assert.Contains("'no'", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Every_provider_switched_off_says_so_when_the_mailer_is_built()
+    {
+        var services = new ServiceCollection();
+        services.AddFreeTierMail(Section(new() { ["FreeTierMail:Providers:brevo:Enabled"] = "false" })).AddBrevo();
+        await using var provider = services.BuildServiceProvider();
+
+        var error = Assert.Throws<ArgumentException>(() => provider.GetRequiredService<FreeTierMailer>());
+
+        Assert.Contains("switch every provider off", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task A_provider_without_a_key_fails_start_naming_the_setting()
     {
         var services = new ServiceCollection();

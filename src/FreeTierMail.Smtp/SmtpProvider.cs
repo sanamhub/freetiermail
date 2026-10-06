@@ -19,23 +19,39 @@ public sealed class SmtpOptions : EmailProviderOptions
     /// <summary>The port. 587 (STARTTLS) by default; 465 uses TLS from the first byte.</summary>
     public int Port { get; set; } = 587;
 
-    /// <summary>The login name. Many relays use a fixed name, such as <c>apikey</c> or the account email.</summary>
+    /// <summary>
+    /// The login name. Many relays use a fixed name, such as <c>apikey</c> or the account email.
+    /// Required, except on a loopback host, where an empty name skips the login (a local test inbox
+    /// such as Mailpit).
+    /// </summary>
     public string Username { get; set; } = string.Empty;
+
+    /// <inheritdoc/>
+    protected override bool RequiresApiKey => !IsLoopback || Username.Length > 0;
+
+    internal bool IsLoopback =>
+        Host.Equals("localhost", StringComparison.OrdinalIgnoreCase) || (IPAddress.TryParse(Host, out var address) && IPAddress.IsLoopback(address));
 
     /// <inheritdoc/>
     /// <exception cref="ArgumentException">The host, login or password is missing, the port is out of range, or a limit is invalid.</exception>
     public override void Validate(string providerName)
     {
         base.Validate(providerName);
-        if (string.IsNullOrWhiteSpace(Host) || string.IsNullOrWhiteSpace(Username) || Port is < 1 or > 65535)
+        if (string.IsNullOrWhiteSpace(Host) || Port is < 1 or > 65535)
         {
-            throw new ArgumentException($"{providerName} needs Host, Username and a Port from 1 to 65535.");
+            throw new ArgumentException($"{providerName} needs Host and a Port from 1 to 65535.");
+        }
+
+        if (!IsLoopback && string.IsNullOrWhiteSpace(Username))
+        {
+            throw new ArgumentException($"{providerName} needs Username; only a loopback host may skip the login.");
         }
     }
 }
 
 /// <summary>
-/// Sends through an SMTP relay with MailKit, over STARTTLS, or TLS on connect for port 465. A
+/// Sends through an SMTP relay with MailKit, over STARTTLS, or TLS on connect for port 465. On a
+/// loopback host STARTTLS is used when the server offers it, so a local test inbox works. A
 /// failure while connecting or logging in sent nothing, so the mailer may fail over; a connection
 /// lost while sending may have delivered the message, so it is <see cref="ProviderOutcome.Unknown"/>.
 /// </summary>
@@ -68,7 +84,9 @@ public sealed class SmtpProvider : IEmailProvider
         options.Validate("smtp");
         _options = options;
         _sessions = sessions;
-        _security = options.Port == 465 ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTls;
+        _security = options.Port == 465 ? SecureSocketOptions.SslOnConnect
+            : options.IsLoopback ? SecureSocketOptions.StartTlsWhenAvailable
+            : SecureSocketOptions.StartTls;
         Name = string.IsNullOrWhiteSpace(options.Name) ? "smtp" : options.Name;
         Quota = options.ToQuotaPlan();
         PreferForCritical = options.PreferForCritical;
@@ -154,7 +172,11 @@ public sealed class SmtpProvider : IEmailProvider
         try
         {
             await session.ConnectAsync(_options.Host, _options.Port, _security, cancellationToken).ConfigureAwait(false);
-            await session.AuthenticateAsync(_options.Username, _options.ApiKey, cancellationToken).ConfigureAwait(false);
+            if (_options.Username.Length > 0)
+            {
+                await session.AuthenticateAsync(_options.Username, _options.ApiKey, cancellationToken).ConfigureAwait(false);
+            }
+
             return null;
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)

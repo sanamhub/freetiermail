@@ -8,6 +8,18 @@ namespace FreeTierMail;
 public static class EmailProviderSettings
 {
     /// <summary>
+    /// False when <paramref name="section"/> sets <c>Enabled</c> to false. A provider switched off
+    /// is not registered at all: no options check, no client, no quota. Use it to keep a provider in
+    /// <c>appsettings.json</c> and turn it on per environment.
+    /// </summary>
+    /// <param name="section">The provider's section, or null when the mailer was configured in code.</param>
+    /// <returns>True unless the section switches the provider off.</returns>
+    /// <exception cref="FormatException"><c>Enabled</c> is not true or false.</exception>
+    public static bool IsEnabled(IConfiguration? section) =>
+        section?["Enabled"] is not { Length: > 0 } enabled
+        || (bool.TryParse(enabled, out var on) ? on : throw new FormatException($"Enabled is '{enabled}'; use true or false."));
+
+    /// <summary>
     /// Copies <c>ApiKey</c>, <c>Daily</c>, <c>Monthly</c>, <c>ResetTimeZone</c>,
     /// <c>MonthlyResetDay</c>, <c>PreferForCritical</c> and <c>BaseAddress</c> from
     /// <paramref name="section"/> into <paramref name="options"/>. Absent keys leave the option as is.

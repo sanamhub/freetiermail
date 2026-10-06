@@ -41,6 +41,36 @@ public sealed class SmtpProviderTests
         Assert.True(session.Disconnected);
     }
 
+    [Theory]
+    [InlineData("localhost")]
+    [InlineData("127.0.0.1")]
+    [InlineData("::1")]
+    public async Task A_loopback_test_inbox_needs_no_login_and_tls_only_when_offered(string host)
+    {
+        var session = new FakeSession();
+
+        var result = await new SmtpProvider(new SmtpOptions { Host = host, Port = 1025 }, () => session).SendAsync(Message(), Ct);
+
+        Assert.Equal(ProviderOutcome.Accepted, result.Outcome);
+        Assert.Equal(SecureSocketOptions.StartTlsWhenAvailable, session.Security);
+        Assert.Equal(default, session.Login);
+    }
+
+    [Fact]
+    public void A_loopback_login_without_a_password_is_refused()
+    {
+        Assert.Throws<ArgumentException>(() => new SmtpProvider(new SmtpOptions { Host = "localhost", Port = 1025, Username = "apikey" }));
+    }
+
+    [Theory]
+    [InlineData("smtp.example.org", "apikey", "")]
+    [InlineData("smtp.example.org", "", "")]
+    [InlineData("localhost.example.org", "", "")]
+    public void A_remote_relay_needs_a_login_and_a_password(string host, string username, string password)
+    {
+        Assert.Throws<ArgumentException>(() => new SmtpProvider(new SmtpOptions { Host = host, Port = 587, Username = username, ApiKey = password }));
+    }
+
     [Fact]
     public async Task Port_465_uses_tls_on_connect()
     {

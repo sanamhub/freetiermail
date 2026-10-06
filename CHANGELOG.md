@@ -20,5 +20,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `FreeTierMail.Testing`: a fake provider and the contract tests every provider passes.
 - Suppression list: `ISuppressionStore` and `InMemorySuppressionStore`. A suppressed recipient
   stops the send before any provider, and `SendResult.Suppressed` says so.
+- `Enabled` in a provider's configuration section: false leaves the provider out, so one
+  registration serves every environment. `EmailProviderSettings.IsEnabled` reads it for provider
+  packages.
+- `FreeTierMail.Smtp` sends to a loopback host without a login, and with TLS only when the server
+  offers it, for a local test inbox such as Mailpit. `EmailProviderOptions.RequiresApiKey` lets a
+  provider say when it needs no key.
 - Webhooks for Resend, Mailgun and MailerSend (signatures checked) and Brevo and Mailjet (shared
   secret), read by `WebhookReceiver` into the suppression list. `AddWebhook()` registers them.

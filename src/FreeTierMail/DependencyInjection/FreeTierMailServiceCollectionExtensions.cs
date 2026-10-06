@@ -15,7 +15,8 @@ public static class FreeTierMailServiceCollectionExtensions
     /// <summary>
     /// Adds a singleton <see cref="FreeTierMailer"/> over the providers added to the returned builder.
     /// Reads <c>Strategy</c>, <c>CriticalReserve</c> and <c>FailoverOnUnknown</c> from
-    /// <paramref name="section"/>; each provider reads <c>Providers:&lt;Name&gt;</c> under it.
+    /// <paramref name="section"/>; each provider reads <c>Providers:&lt;Name&gt;</c> under it, and
+    /// is left out when its <c>Enabled</c> is false.
     /// </summary>
     /// <param name="services">The services.</param>
     /// <param name="section">The <c>FreeTierMail</c> configuration section.</param>
@@ -124,6 +125,7 @@ public interface IFreeTierMailBuilder
     /// Adds an HTTP provider named <paramref name="name"/>: options built by <paramref name="configure"/>
     /// and validated when the host starts, a named <see cref="HttpClient"/> with request logging
     /// removed, and the provider as a singleton. For provider packages, ours or a third party's.
+    /// Nothing is added when <c>Providers:&lt;name&gt;:Enabled</c> is false in <see cref="Section"/>.
     /// </summary>
     /// <typeparam name="TOptions">The provider's options.</typeparam>
     /// <param name="name">The provider's name in the mailer.</param>
@@ -148,6 +150,10 @@ internal sealed class FreeTierMailBuilder(IServiceCollection services, IConfigur
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentNullException.ThrowIfNull(configure);
         ArgumentNullException.ThrowIfNull(create);
+        if (!EmailProviderSettings.IsEnabled(Section?.GetSection("Providers").GetSection(name)))
+        {
+            return this;
+        }
 
         Services.AddOptions<TOptions>(name)
             .Configure(options =>

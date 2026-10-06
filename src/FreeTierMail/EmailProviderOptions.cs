@@ -35,6 +35,9 @@ public abstract class EmailProviderOptions
     public QuotaPlan ToQuotaPlan() =>
         QuotaPlan.From(Daily, Monthly, ResetTimeZone is null ? null : TimeZoneInfo.FindSystemTimeZoneById(ResetTimeZone), MonthlyResetDay);
 
+    /// <summary>True when the provider cannot send without <see cref="ApiKey"/>. An SMTP relay on loopback, such as a local test inbox, needs none.</summary>
+    protected virtual bool RequiresApiKey => true;
+
     /// <summary>Returns the name and quotas. Never the key.</summary>
     /// <returns>A redacted description.</returns>
     public override string ToString() => $"{GetType().Name}(Name: {Name}, ApiKey: ***, Daily: {Daily}, Monthly: {Monthly})";
@@ -44,7 +47,7 @@ public abstract class EmailProviderOptions
     /// <exception cref="ArgumentException">The key is missing, a limit or reset day is out of range, or the time zone is unknown.</exception>
     public virtual void Validate(string providerName)
     {
-        if (string.IsNullOrWhiteSpace(ApiKey))
+        if (RequiresApiKey && string.IsNullOrWhiteSpace(ApiKey))
         {
             throw new ArgumentException($"{providerName} needs an ApiKey.");
         }
