@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest an addition or change, including a new provider.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A new provider needs a free tier that does not expire and an API reference that documents
+        its error responses. Link both.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What you are trying to do
+      description: The use case, not the solution. What is hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or behaviour
+      description: Optional. A sketch of the signature or the behaviour you have in mind.
+      render: csharp

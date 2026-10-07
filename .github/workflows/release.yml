@@ -16,6 +16,11 @@ on:
 permissions:
   contents: read
 
+# Two pushes of the same tag must never publish side by side.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
   DOTNET_NOLOGO: 'true'
   DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
@@ -66,14 +71,14 @@ jobs:
           ./tests/packaging/verify-package.sh --package-dir out --aot
 
       # CycloneDX reads project.assets.json one project at a time, so each packable project gets
-      # its own SBOM. Check the flags against `dotnet CycloneDX --help` when this first runs.
+      # its own SBOM. Pinned, because a new major has changed the command line before.
       - name: sbom
         shell: bash
         run: |
           set -euo pipefail
-          dotnet tool install -g CycloneDX
+          dotnet tool install -g CycloneDX --version 6.2.0
           mkdir -p sbom
-          for proj in src/*/*.csproj tools/*/*.csproj; do
+          for proj in src/*/*.csproj; do
             name="$(basename "$proj" .csproj)"
             dotnet CycloneDX "$proj" -o sbom -fn "$name.bom.xml"
           done
@@ -96,6 +101,7 @@ jobs:
     permissions:
       contents: write              # create the GitHub release
       id-token: write              # NuGet trusted publishing, so there is no long lived key
+      attestations: write          # provenance attestation on each nupkg
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -150,6 +156,14 @@ jobs:
                   --skip-duplicate
               if ($LASTEXITCODE -ne 0) { throw "dotnet nuget push failed for $($package.Name)" }
           }
+
+      # Lets anyone check that a package was built by this workflow from this tag:
+      # gh attestation verify <file>.nupkg --repo sanamhub/freetiermail
+      - name: attest the packages
+        if: github.event_name == 'push' || inputs.dry-run == false
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: files/out/*.nupkg
 
       # Notes come from CHANGELOG.md, not the commit log, so the release page and the changelog
       # cannot say different things.
