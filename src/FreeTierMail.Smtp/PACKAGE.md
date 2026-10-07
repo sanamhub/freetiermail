@@ -7,6 +7,6 @@ On a loopback host, such as a local [Mailpit](https://mailpit.axllent.org/) inbo
 `ApiKey` may be left empty and TLS is used only when the server offers it. Every other host needs a
 login and STARTTLS (or TLS on port 465).
 
-**Status: in development.** The API can change until 1.0.
+**Status: alpha.** The API can change until 1.0.
 
 Source, issues and license (MIT): https://github.com/sanamhub/freetiermail

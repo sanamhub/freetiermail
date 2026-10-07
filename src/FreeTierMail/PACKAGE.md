@@ -18,6 +18,6 @@ builder.Services.AddFreeTierMail(builder.Configuration.GetSection("FreeTierMail"
 API keys come from user secrets or the environment (`FreeTierMail__Providers__brevo__ApiKey`),
 never from a committed `appsettings.json`.
 
-**Status: in development.** The API can change until 1.0.
+**Status: alpha.** The API can change until 1.0.
 
 Source, issues and license (MIT): https://github.com/sanamhub/freetiermail
