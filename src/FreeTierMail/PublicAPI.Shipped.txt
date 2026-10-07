@@ -1,1 +1,410 @@
 #nullable enable
+FreeTierMail.Brevo.BrevoOptions
+FreeTierMail.Brevo.BrevoOptions.BrevoOptions() -> void
+FreeTierMail.Brevo.BrevoProvider
+FreeTierMail.Brevo.BrevoProvider.BrevoProvider(System.Net.Http.HttpClient! http, FreeTierMail.Brevo.BrevoOptions! options) -> void
+FreeTierMail.Brevo.BrevoWebhook
+FreeTierMail.Brevo.BrevoWebhook.BrevoWebhook(string! secret, string? user = null, string! name = "brevo") -> void
+override FreeTierMail.Brevo.BrevoWebhook.Read(System.Text.Json.JsonElement body, System.DateTimeOffset now) -> System.Collections.Generic.IEnumerable<FreeTierMail.Suppression!>!
+override FreeTierMail.Brevo.BrevoWebhook.Verify(FreeTierMail.WebhookRequest! request, System.DateTimeOffset now) -> bool
+FreeTierMail.ElasticEmail.ElasticEmailOptions
+FreeTierMail.ElasticEmail.ElasticEmailOptions.ElasticEmailOptions() -> void
+FreeTierMail.ElasticEmail.ElasticEmailProvider
+FreeTierMail.ElasticEmail.ElasticEmailProvider.ElasticEmailProvider(System.Net.Http.HttpClient! http, FreeTierMail.ElasticEmail.ElasticEmailOptions! options) -> void
+FreeTierMail.EmailAddress
+FreeTierMail.EmailAddress.<Clone>$() -> FreeTierMail.EmailAddress!
+FreeTierMail.EmailAddress.Address.get -> string!
+FreeTierMail.EmailAddress.DisplayName.get -> string?
+FreeTierMail.EmailAddress.EmailAddress(string! address, string? displayName = null) -> void
+FreeTierMail.EmailAddress.Equals(FreeTierMail.EmailAddress? other) -> bool
+override FreeTierMail.EmailAddress.Equals(object? obj) -> bool
+override FreeTierMail.EmailAddress.GetHashCode() -> int
+const FreeTierMail.EmailAddress.MaxAddressLength = 254 -> int
+const FreeTierMail.EmailAddress.MaxDisplayNameLength = 200 -> int
+override FreeTierMail.EmailAddress.ToString() -> string!
+static FreeTierMail.EmailAddress.operator !=(FreeTierMail.EmailAddress? left, FreeTierMail.EmailAddress? right) -> bool
+static FreeTierMail.EmailAddress.operator ==(FreeTierMail.EmailAddress? left, FreeTierMail.EmailAddress? right) -> bool
+FreeTierMail.EmailMessage
+FreeTierMail.EmailMessage.Bcc.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.EmailAddress!>!
+FreeTierMail.EmailMessage.Bcc.init -> void
+FreeTierMail.EmailMessage.Cc.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.EmailAddress!>!
+FreeTierMail.EmailMessage.Cc.init -> void
+FreeTierMail.EmailMessage.EmailMessage(FreeTierMail.EmailAddress! from, System.Collections.Generic.IEnumerable<FreeTierMail.EmailAddress!>! to, string! subject) -> void
+FreeTierMail.EmailMessage.From.get -> FreeTierMail.EmailAddress!
+FreeTierMail.EmailMessage.HtmlBody.get -> string?
+FreeTierMail.EmailMessage.HtmlBody.init -> void
+FreeTierMail.EmailMessage.IdempotencyKey.get -> string?
+FreeTierMail.EmailMessage.IdempotencyKey.init -> void
+const FreeTierMail.EmailMessage.MaxIdempotencyKeyLength = 200 -> int
+const FreeTierMail.EmailMessage.MaxRecipients = 50 -> int
+const FreeTierMail.EmailMessage.MaxSubjectLength = 998 -> int
+FreeTierMail.EmailMessage.Priority.get -> FreeTierMail.EmailPriority
+FreeTierMail.EmailMessage.Priority.init -> void
+FreeTierMail.EmailMessage.ReplyTo.get -> FreeTierMail.EmailAddress?
+FreeTierMail.EmailMessage.ReplyTo.init -> void
+FreeTierMail.EmailMessage.Subject.get -> string!
+FreeTierMail.EmailMessage.Tags.get -> System.Collections.Generic.IReadOnlyList<string!>!
+FreeTierMail.EmailMessage.Tags.init -> void
+FreeTierMail.EmailMessage.TextBody.get -> string?
+FreeTierMail.EmailMessage.TextBody.init -> void
+FreeTierMail.EmailMessage.To.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.EmailAddress!>!
+override FreeTierMail.EmailMessage.ToString() -> string!
+FreeTierMail.EmailPriority
+FreeTierMail.EmailPriority.Critical = 1 -> FreeTierMail.EmailPriority
+FreeTierMail.EmailPriority.Normal = 0 -> FreeTierMail.EmailPriority
+FreeTierMail.EmailProviderOptions
+FreeTierMail.EmailProviderOptions.ApiKey.get -> string!
+FreeTierMail.EmailProviderOptions.ApiKey.set -> void
+FreeTierMail.EmailProviderOptions.BaseAddress.get -> System.Uri?
+FreeTierMail.EmailProviderOptions.BaseAddress.set -> void
+FreeTierMail.EmailProviderOptions.Daily.get -> int?
+FreeTierMail.EmailProviderOptions.Daily.set -> void
+FreeTierMail.EmailProviderOptions.EmailProviderOptions() -> void
+FreeTierMail.EmailProviderOptions.Monthly.get -> int?
+FreeTierMail.EmailProviderOptions.Monthly.set -> void
+FreeTierMail.EmailProviderOptions.MonthlyResetDay.get -> int
+FreeTierMail.EmailProviderOptions.MonthlyResetDay.set -> void
+FreeTierMail.EmailProviderOptions.Name.get -> string?
+FreeTierMail.EmailProviderOptions.Name.set -> void
+FreeTierMail.EmailProviderOptions.PreferForCritical.get -> bool
+FreeTierMail.EmailProviderOptions.PreferForCritical.set -> void
+FreeTierMail.EmailProviderOptions.ResetTimeZone.get -> string?
+FreeTierMail.EmailProviderOptions.ResetTimeZone.set -> void
+FreeTierMail.EmailProviderOptions.ToQuotaPlan() -> FreeTierMail.QuotaPlan!
+override FreeTierMail.EmailProviderOptions.ToString() -> string!
+virtual FreeTierMail.EmailProviderOptions.Validate(string! providerName) -> void
+FreeTierMail.EmailProviderSettings
+static FreeTierMail.EmailProviderSettings.Apply(Microsoft.Extensions.Configuration.IConfiguration! section, FreeTierMail.EmailProviderOptions! options) -> void
+FreeTierMail.EmailWebhook
+FreeTierMail.EmailWebhook.EmailWebhook(string! name) -> void
+static FreeTierMail.EmailWebhook.Fresh(string? unixSeconds, System.DateTimeOffset now, System.TimeSpan tolerance) -> bool
+static FreeTierMail.EmailWebhook.HmacHex(byte[]! key, System.ReadOnlySpan<byte> data) -> string!
+FreeTierMail.EmailWebhook.Name.get -> string!
+abstract FreeTierMail.EmailWebhook.Read(System.Text.Json.JsonElement body, System.DateTimeOffset now) -> System.Collections.Generic.IEnumerable<FreeTierMail.Suppression!>!
+static FreeTierMail.EmailWebhook.SameText(string? given, string! expected) -> bool
+static FreeTierMail.EmailWebhook.SharedSecret(FreeTierMail.WebhookRequest! request, string? user, string! secret) -> bool
+static FreeTierMail.EmailWebhook.Text(System.Text.Json.JsonElement element, string! name) -> string?
+abstract FreeTierMail.EmailWebhook.Verify(FreeTierMail.WebhookRequest! request, System.DateTimeOffset now) -> bool
+FreeTierMail.FreeTierMailDiagnostics
+const FreeTierMail.FreeTierMailDiagnostics.AttemptsMetric = "freetiermail.attempts" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.AttemptsTag = "freetiermail.attempts" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.MeterName = "FreeTierMail" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.PeriodTag = "freetiermail.period" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.ProviderTag = "freetiermail.provider" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.QuotaLimitMetric = "freetiermail.quota.limit" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.QuotaRemainingMetric = "freetiermail.quota.remaining" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.SendActivityName = "freetiermail.send" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.SendsMetric = "freetiermail.sends" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.SourceName = "FreeTierMail" -> string!
+const FreeTierMail.FreeTierMailDiagnostics.StatusTag = "freetiermail.status" -> string!
+FreeTierMail.FreeTierMailer
+FreeTierMail.FreeTierMailer.Enable(string! provider) -> void
+FreeTierMail.FreeTierMailer.FreeTierMailer(System.Collections.Generic.IEnumerable<FreeTierMail.IEmailProvider!>! providers, FreeTierMail.FreeTierMailerOptions? options = null, Microsoft.Extensions.Logging.ILogger<FreeTierMail.FreeTierMailer!>? logger = null) -> void
+FreeTierMail.FreeTierMailer.GetUsageAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaUsage!>!>!
+FreeTierMail.FreeTierMailer.ProviderNames.get -> System.Collections.Generic.IReadOnlyList<string!>!
+FreeTierMail.FreeTierMailer.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<FreeTierMail.SendResult!>!
+FreeTierMail.FreeTierMailerOptions
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerFailures.get -> int
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerFailures.set -> void
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerOpenFor.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerOpenFor.set -> void
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerWindow.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.CircuitBreakerWindow.set -> void
+FreeTierMail.FreeTierMailerOptions.CriticalReserve.get -> double
+FreeTierMail.FreeTierMailerOptions.CriticalReserve.set -> void
+FreeTierMail.FreeTierMailerOptions.DefaultThrottleWait.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.DefaultThrottleWait.set -> void
+FreeTierMail.FreeTierMailerOptions.FailoverOnUnknown.get -> bool
+FreeTierMail.FreeTierMailerOptions.FailoverOnUnknown.set -> void
+FreeTierMail.FreeTierMailerOptions.FreeTierMailerOptions() -> void
+FreeTierMail.FreeTierMailerOptions.IdempotencyCapacity.get -> int
+FreeTierMail.FreeTierMailerOptions.IdempotencyCapacity.set -> void
+FreeTierMail.FreeTierMailerOptions.IdempotencyRetention.get -> System.TimeSpan
+FreeTierMail.FreeTierMailerOptions.IdempotencyRetention.set -> void
+FreeTierMail.FreeTierMailerOptions.QuotaStore.get -> FreeTierMail.IQuotaStore?
+FreeTierMail.FreeTierMailerOptions.QuotaStore.set -> void
+FreeTierMail.FreeTierMailerOptions.Strategy.get -> FreeTierMail.RoutingStrategy
+FreeTierMail.FreeTierMailerOptions.Strategy.set -> void
+FreeTierMail.FreeTierMailerOptions.SuppressionStore.get -> FreeTierMail.ISuppressionStore?
+FreeTierMail.FreeTierMailerOptions.SuppressionStore.set -> void
+FreeTierMail.FreeTierMailerOptions.TimeProvider.get -> System.TimeProvider?
+FreeTierMail.FreeTierMailerOptions.TimeProvider.set -> void
+FreeTierMail.HttpEmailProvider
+abstract FreeTierMail.HttpEmailProvider.CreateRequest(FreeTierMail.EmailMessage! message) -> System.Net.Http.HttpRequestMessage!
+FreeTierMail.HttpEmailProvider.HttpEmailProvider(System.Net.Http.HttpClient! http, FreeTierMail.EmailProviderOptions! options, string! defaultName) -> void
+abstract FreeTierMail.HttpEmailProvider.MapResponse(System.Net.HttpStatusCode status, System.Net.Http.Headers.HttpResponseHeaders! headers, string! body) -> FreeTierMail.ProviderResult!
+FreeTierMail.HttpEmailProvider.Name.get -> string!
+FreeTierMail.HttpEmailProvider.PreferForCritical.get -> bool
+FreeTierMail.HttpEmailProvider.Quota.get -> FreeTierMail.QuotaPlan!
+static FreeTierMail.HttpEmailProvider.RetryAfter(System.Net.Http.Headers.HttpResponseHeaders! headers) -> System.TimeSpan?
+FreeTierMail.HttpEmailProvider.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.ProviderResult!>!
+static FreeTierMail.HttpEmailProvider.Undocumented(System.Net.HttpStatusCode status) -> FreeTierMail.ProviderResult!
+FreeTierMail.IEmailProvider
+FreeTierMail.IEmailProvider.Name.get -> string!
+FreeTierMail.IEmailProvider.PreferForCritical.get -> bool
+FreeTierMail.IEmailProvider.Quota.get -> FreeTierMail.QuotaPlan!
+FreeTierMail.IEmailProvider.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.ProviderResult!>!
+FreeTierMail.IQuotaStore
+FreeTierMail.IQuotaStore.GetUsageAsync(string! provider, FreeTierMail.QuotaPlan! plan, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaUsage!>!>!
+FreeTierMail.IQuotaStore.MarkExhaustedAsync(string! provider, FreeTierMail.QuotaWindow! window, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.IQuotaStore.ReleaseAsync(FreeTierMail.QuotaReservation! reservation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.IQuotaStore.TryReserveAsync(string! provider, FreeTierMail.QuotaPlan! plan, FreeTierMail.EmailPriority priority, double criticalReserve, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.QuotaReservation?>!
+FreeTierMail.ISuppressionStore
+FreeTierMail.ISuppressionStore.AddAsync(FreeTierMail.Suppression! suppression, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask
+FreeTierMail.ISuppressionStore.FindAsync(string! address, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<FreeTierMail.Suppression?>
+FreeTierMail.ISuppressionStore.RemoveAsync(string! address, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<bool>
+FreeTierMail.InMemoryQuotaStore
+FreeTierMail.InMemoryQuotaStore.GetUsageAsync(string! provider, FreeTierMail.QuotaPlan! plan, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaUsage!>!>!
+FreeTierMail.InMemoryQuotaStore.InMemoryQuotaStore() -> void
+FreeTierMail.InMemoryQuotaStore.MarkExhaustedAsync(string! provider, FreeTierMail.QuotaWindow! window, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.InMemoryQuotaStore.ReleaseAsync(FreeTierMail.QuotaReservation! reservation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+FreeTierMail.InMemoryQuotaStore.TryReserveAsync(string! provider, FreeTierMail.QuotaPlan! plan, FreeTierMail.EmailPriority priority, double criticalReserve, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.QuotaReservation?>!
+FreeTierMail.InMemorySuppressionStore
+FreeTierMail.InMemorySuppressionStore.AddAsync(FreeTierMail.Suppression! suppression, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask
+FreeTierMail.InMemorySuppressionStore.FindAsync(string! address, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<FreeTierMail.Suppression?>
+FreeTierMail.InMemorySuppressionStore.InMemorySuppressionStore() -> void
+FreeTierMail.InMemorySuppressionStore.RemoveAsync(string! address, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<bool>
+FreeTierMail.MailerSend.MailerSendOptions
+FreeTierMail.MailerSend.MailerSendOptions.MailerSendOptions() -> void
+FreeTierMail.MailerSend.MailerSendProvider
+FreeTierMail.MailerSend.MailerSendProvider.MailerSendProvider(System.Net.Http.HttpClient! http, FreeTierMail.MailerSend.MailerSendOptions! options) -> void
+FreeTierMail.MailerSend.MailerSendWebhook
+FreeTierMail.MailerSend.MailerSendWebhook.MailerSendWebhook(string! signingSecret, string! name = "mailersend") -> void
+override FreeTierMail.MailerSend.MailerSendWebhook.Read(System.Text.Json.JsonElement body, System.DateTimeOffset now) -> System.Collections.Generic.IEnumerable<FreeTierMail.Suppression!>!
+override FreeTierMail.MailerSend.MailerSendWebhook.Verify(FreeTierMail.WebhookRequest! request, System.DateTimeOffset now) -> bool
+FreeTierMail.Mailgun.MailgunOptions
+FreeTierMail.Mailgun.MailgunOptions.Domain.get -> string!
+FreeTierMail.Mailgun.MailgunOptions.Domain.set -> void
+FreeTierMail.Mailgun.MailgunOptions.MailgunOptions() -> void
+override FreeTierMail.Mailgun.MailgunOptions.Validate(string! providerName) -> void
+FreeTierMail.Mailgun.MailgunProvider
+FreeTierMail.Mailgun.MailgunProvider.MailgunProvider(System.Net.Http.HttpClient! http, FreeTierMail.Mailgun.MailgunOptions! options) -> void
+FreeTierMail.Mailgun.MailgunWebhook
+FreeTierMail.Mailgun.MailgunWebhook.MailgunWebhook(string! signingKey, string! name = "mailgun", System.TimeSpan? tolerance = null) -> void
+override FreeTierMail.Mailgun.MailgunWebhook.Read(System.Text.Json.JsonElement body, System.DateTimeOffset now) -> System.Collections.Generic.IEnumerable<FreeTierMail.Suppression!>!
+override FreeTierMail.Mailgun.MailgunWebhook.Verify(FreeTierMail.WebhookRequest! request, System.DateTimeOffset now) -> bool
+FreeTierMail.Mailjet.MailjetOptions
+FreeTierMail.Mailjet.MailjetOptions.MailjetOptions() -> void
+FreeTierMail.Mailjet.MailjetOptions.SecretKey.get -> string!
+FreeTierMail.Mailjet.MailjetOptions.SecretKey.set -> void
+override FreeTierMail.Mailjet.MailjetOptions.Validate(string! providerName) -> void
+FreeTierMail.Mailjet.MailjetProvider
+FreeTierMail.Mailjet.MailjetProvider.MailjetProvider(System.Net.Http.HttpClient! http, FreeTierMail.Mailjet.MailjetOptions! options) -> void
+FreeTierMail.Mailjet.MailjetWebhook
+FreeTierMail.Mailjet.MailjetWebhook.MailjetWebhook(string! user, string! password, string! name = "mailjet") -> void
+override FreeTierMail.Mailjet.MailjetWebhook.Read(System.Text.Json.JsonElement body, System.DateTimeOffset now) -> System.Collections.Generic.IEnumerable<FreeTierMail.Suppression!>!
+override FreeTierMail.Mailjet.MailjetWebhook.Verify(FreeTierMail.WebhookRequest! request, System.DateTimeOffset now) -> bool
+FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Accepted = 0 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.ProviderFault = 4 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.QuotaExhausted = 3 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.RecipientRejected = 1 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Throttled = 2 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Unavailable = 5 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderOutcome.Unknown = 6 -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderResult
+FreeTierMail.ProviderResult.<Clone>$() -> FreeTierMail.ProviderResult!
+static FreeTierMail.ProviderResult.Accepted(string? providerMessageId = null) -> FreeTierMail.ProviderResult!
+FreeTierMail.ProviderResult.Deconstruct(out FreeTierMail.ProviderOutcome Outcome) -> void
+FreeTierMail.ProviderResult.Equals(FreeTierMail.ProviderResult? other) -> bool
+override FreeTierMail.ProviderResult.Equals(object? obj) -> bool
+FreeTierMail.ProviderResult.ExhaustedPeriod.get -> FreeTierMail.QuotaPeriod?
+FreeTierMail.ProviderResult.ExhaustedPeriod.init -> void
+override FreeTierMail.ProviderResult.GetHashCode() -> int
+static FreeTierMail.ProviderResult.Of(FreeTierMail.ProviderOutcome outcome, string! reason, System.TimeSpan? retryAfter = null) -> FreeTierMail.ProviderResult!
+FreeTierMail.ProviderResult.Outcome.get -> FreeTierMail.ProviderOutcome
+FreeTierMail.ProviderResult.Outcome.init -> void
+FreeTierMail.ProviderResult.ProviderMessageId.get -> string?
+FreeTierMail.ProviderResult.ProviderMessageId.init -> void
+FreeTierMail.ProviderResult.ProviderResult(FreeTierMail.ProviderOutcome Outcome) -> void
+FreeTierMail.ProviderResult.Reason.get -> string?
+FreeTierMail.ProviderResult.Reason.init -> void
+FreeTierMail.ProviderResult.RetryAfter.get -> System.TimeSpan?
+FreeTierMail.ProviderResult.RetryAfter.init -> void
+override FreeTierMail.ProviderResult.ToString() -> string!
+static FreeTierMail.ProviderResult.operator !=(FreeTierMail.ProviderResult? left, FreeTierMail.ProviderResult? right) -> bool
+static FreeTierMail.ProviderResult.operator ==(FreeTierMail.ProviderResult? left, FreeTierMail.ProviderResult? right) -> bool
+FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaPeriod.Daily = 0 -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaPeriod.Monthly = 1 -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaPlan
+static FreeTierMail.QuotaPlan.From(int? daily, int? monthly, System.TimeZoneInfo? timeZone = null, int monthlyResetDay = 1) -> FreeTierMail.QuotaPlan!
+FreeTierMail.QuotaPlan.QuotaPlan(System.Collections.Generic.IEnumerable<FreeTierMail.QuotaWindow!>! windows) -> void
+static FreeTierMail.QuotaPlan.Unlimited.get -> FreeTierMail.QuotaPlan!
+FreeTierMail.QuotaPlan.Windows.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.QuotaWindow!>!
+FreeTierMail.QuotaReservation
+FreeTierMail.QuotaReservation.<Clone>$() -> FreeTierMail.QuotaReservation!
+FreeTierMail.QuotaReservation.Deconstruct(out string! Provider, out System.Collections.Generic.IReadOnlyList<string!>! Keys) -> void
+FreeTierMail.QuotaReservation.Equals(FreeTierMail.QuotaReservation? other) -> bool
+override FreeTierMail.QuotaReservation.Equals(object? obj) -> bool
+override FreeTierMail.QuotaReservation.GetHashCode() -> int
+FreeTierMail.QuotaReservation.Keys.get -> System.Collections.Generic.IReadOnlyList<string!>!
+FreeTierMail.QuotaReservation.Keys.init -> void
+FreeTierMail.QuotaReservation.Provider.get -> string!
+FreeTierMail.QuotaReservation.Provider.init -> void
+FreeTierMail.QuotaReservation.QuotaReservation(string! Provider, System.Collections.Generic.IReadOnlyList<string!>! Keys) -> void
+override FreeTierMail.QuotaReservation.ToString() -> string!
+static FreeTierMail.QuotaReservation.operator !=(FreeTierMail.QuotaReservation? left, FreeTierMail.QuotaReservation? right) -> bool
+static FreeTierMail.QuotaReservation.operator ==(FreeTierMail.QuotaReservation? left, FreeTierMail.QuotaReservation? right) -> bool
+FreeTierMail.QuotaUsage
+FreeTierMail.QuotaUsage.<Clone>$() -> FreeTierMail.QuotaUsage!
+FreeTierMail.QuotaUsage.Deconstruct(out string! Provider, out FreeTierMail.QuotaPeriod Period, out int Limit, out int Used, out System.DateTimeOffset ResetsAt, out bool Exhausted) -> void
+FreeTierMail.QuotaUsage.Equals(FreeTierMail.QuotaUsage? other) -> bool
+override FreeTierMail.QuotaUsage.Equals(object? obj) -> bool
+FreeTierMail.QuotaUsage.Exhausted.get -> bool
+FreeTierMail.QuotaUsage.Exhausted.init -> void
+override FreeTierMail.QuotaUsage.GetHashCode() -> int
+FreeTierMail.QuotaUsage.Limit.get -> int
+FreeTierMail.QuotaUsage.Limit.init -> void
+FreeTierMail.QuotaUsage.Period.get -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaUsage.Period.init -> void
+FreeTierMail.QuotaUsage.Provider.get -> string!
+FreeTierMail.QuotaUsage.Provider.init -> void
+FreeTierMail.QuotaUsage.QuotaUsage(string! Provider, FreeTierMail.QuotaPeriod Period, int Limit, int Used, System.DateTimeOffset ResetsAt, bool Exhausted) -> void
+FreeTierMail.QuotaUsage.ResetsAt.get -> System.DateTimeOffset
+FreeTierMail.QuotaUsage.ResetsAt.init -> void
+override FreeTierMail.QuotaUsage.ToString() -> string!
+FreeTierMail.QuotaUsage.Used.get -> int
+FreeTierMail.QuotaUsage.Used.init -> void
+static FreeTierMail.QuotaUsage.operator !=(FreeTierMail.QuotaUsage? left, FreeTierMail.QuotaUsage? right) -> bool
+static FreeTierMail.QuotaUsage.operator ==(FreeTierMail.QuotaUsage? left, FreeTierMail.QuotaUsage? right) -> bool
+FreeTierMail.QuotaWindow
+FreeTierMail.QuotaWindow.<Clone>$() -> FreeTierMail.QuotaWindow!
+FreeTierMail.QuotaWindow.Equals(FreeTierMail.QuotaWindow? other) -> bool
+override FreeTierMail.QuotaWindow.Equals(object? obj) -> bool
+override FreeTierMail.QuotaWindow.GetHashCode() -> int
+FreeTierMail.QuotaWindow.KeyFor(System.DateTimeOffset now) -> string!
+FreeTierMail.QuotaWindow.Limit.get -> int
+FreeTierMail.QuotaWindow.NextReset(System.DateTimeOffset now) -> System.DateTimeOffset
+FreeTierMail.QuotaWindow.Period.get -> FreeTierMail.QuotaPeriod
+FreeTierMail.QuotaWindow.QuotaWindow(FreeTierMail.QuotaPeriod period, int limit) -> void
+FreeTierMail.QuotaWindow.ResetDay.get -> int
+FreeTierMail.QuotaWindow.ResetDay.init -> void
+FreeTierMail.QuotaWindow.StartOf(System.DateTimeOffset now) -> System.DateTimeOffset
+FreeTierMail.QuotaWindow.TimeZone.get -> System.TimeZoneInfo!
+FreeTierMail.QuotaWindow.TimeZone.init -> void
+override FreeTierMail.QuotaWindow.ToString() -> string!
+static FreeTierMail.QuotaWindow.operator !=(FreeTierMail.QuotaWindow? left, FreeTierMail.QuotaWindow? right) -> bool
+static FreeTierMail.QuotaWindow.operator ==(FreeTierMail.QuotaWindow? left, FreeTierMail.QuotaWindow? right) -> bool
+FreeTierMail.Resend.ResendOptions
+FreeTierMail.Resend.ResendOptions.ResendOptions() -> void
+FreeTierMail.Resend.ResendProvider
+FreeTierMail.Resend.ResendProvider.ResendProvider(System.Net.Http.HttpClient! http, FreeTierMail.Resend.ResendOptions! options) -> void
+FreeTierMail.Resend.ResendWebhook
+override FreeTierMail.Resend.ResendWebhook.Read(System.Text.Json.JsonElement body, System.DateTimeOffset now) -> System.Collections.Generic.IEnumerable<FreeTierMail.Suppression!>!
+FreeTierMail.Resend.ResendWebhook.ResendWebhook(string! signingSecret, string! name = "resend", System.TimeSpan? tolerance = null) -> void
+override FreeTierMail.Resend.ResendWebhook.Verify(FreeTierMail.WebhookRequest! request, System.DateTimeOffset now) -> bool
+FreeTierMail.RoutingStrategy
+FreeTierMail.RoutingStrategy.ExpiringFirst = 0 -> FreeTierMail.RoutingStrategy
+FreeTierMail.RoutingStrategy.MostRemaining = 2 -> FreeTierMail.RoutingStrategy
+FreeTierMail.RoutingStrategy.Ordered = 1 -> FreeTierMail.RoutingStrategy
+FreeTierMail.SendAttempt
+FreeTierMail.SendAttempt.<Clone>$() -> FreeTierMail.SendAttempt!
+FreeTierMail.SendAttempt.Deconstruct(out string! Provider, out FreeTierMail.ProviderOutcome Outcome, out System.TimeSpan Duration, out string? Reason) -> void
+FreeTierMail.SendAttempt.Duration.get -> System.TimeSpan
+FreeTierMail.SendAttempt.Duration.init -> void
+FreeTierMail.SendAttempt.Equals(FreeTierMail.SendAttempt? other) -> bool
+override FreeTierMail.SendAttempt.Equals(object? obj) -> bool
+override FreeTierMail.SendAttempt.GetHashCode() -> int
+FreeTierMail.SendAttempt.Outcome.get -> FreeTierMail.ProviderOutcome
+FreeTierMail.SendAttempt.Outcome.init -> void
+FreeTierMail.SendAttempt.Provider.get -> string!
+FreeTierMail.SendAttempt.Provider.init -> void
+FreeTierMail.SendAttempt.Reason.get -> string?
+FreeTierMail.SendAttempt.Reason.init -> void
+FreeTierMail.SendAttempt.SendAttempt(string! Provider, FreeTierMail.ProviderOutcome Outcome, System.TimeSpan Duration, string? Reason) -> void
+override FreeTierMail.SendAttempt.ToString() -> string!
+static FreeTierMail.SendAttempt.operator !=(FreeTierMail.SendAttempt? left, FreeTierMail.SendAttempt? right) -> bool
+static FreeTierMail.SendAttempt.operator ==(FreeTierMail.SendAttempt? left, FreeTierMail.SendAttempt? right) -> bool
+FreeTierMail.SendResult
+FreeTierMail.SendResult.<Clone>$() -> FreeTierMail.SendResult!
+FreeTierMail.SendResult.Attempts.get -> System.Collections.Generic.IReadOnlyList<FreeTierMail.SendAttempt!>!
+FreeTierMail.SendResult.Attempts.init -> void
+FreeTierMail.SendResult.Deconstruct(out FreeTierMail.SendStatus Status, out System.Collections.Generic.IReadOnlyList<FreeTierMail.SendAttempt!>! Attempts) -> void
+FreeTierMail.SendResult.Equals(FreeTierMail.SendResult? other) -> bool
+override FreeTierMail.SendResult.Equals(object? obj) -> bool
+override FreeTierMail.SendResult.GetHashCode() -> int
+FreeTierMail.SendResult.IsReplay.get -> bool
+FreeTierMail.SendResult.IsReplay.init -> void
+FreeTierMail.SendResult.Provider.get -> string?
+FreeTierMail.SendResult.Provider.init -> void
+FreeTierMail.SendResult.ProviderMessageId.get -> string?
+FreeTierMail.SendResult.ProviderMessageId.init -> void
+FreeTierMail.SendResult.SendResult(FreeTierMail.SendStatus Status, System.Collections.Generic.IReadOnlyList<FreeTierMail.SendAttempt!>! Attempts) -> void
+FreeTierMail.SendResult.Status.get -> FreeTierMail.SendStatus
+FreeTierMail.SendResult.Status.init -> void
+FreeTierMail.SendResult.Suppressed.get -> bool
+FreeTierMail.SendResult.Suppressed.init -> void
+override FreeTierMail.SendResult.ToString() -> string!
+static FreeTierMail.SendResult.operator !=(FreeTierMail.SendResult? left, FreeTierMail.SendResult? right) -> bool
+static FreeTierMail.SendResult.operator ==(FreeTierMail.SendResult? left, FreeTierMail.SendResult? right) -> bool
+FreeTierMail.SendStatus
+FreeTierMail.SendStatus.Failed = 1 -> FreeTierMail.SendStatus
+FreeTierMail.SendStatus.Sent = 0 -> FreeTierMail.SendStatus
+FreeTierMail.SendStatus.Unknown = 2 -> FreeTierMail.SendStatus
+FreeTierMail.Smtp2Go.Smtp2GoOptions
+FreeTierMail.Smtp2Go.Smtp2GoOptions.Smtp2GoOptions() -> void
+FreeTierMail.Smtp2Go.Smtp2GoProvider
+FreeTierMail.Smtp2Go.Smtp2GoProvider.Smtp2GoProvider(System.Net.Http.HttpClient! http, FreeTierMail.Smtp2Go.Smtp2GoOptions! options) -> void
+FreeTierMail.Suppression
+FreeTierMail.Suppression.<Clone>$() -> FreeTierMail.Suppression!
+FreeTierMail.Suppression.Address.get -> string!
+FreeTierMail.Suppression.Address.init -> void
+FreeTierMail.Suppression.At.get -> System.DateTimeOffset
+FreeTierMail.Suppression.At.init -> void
+FreeTierMail.Suppression.Deconstruct(out string! Address, out FreeTierMail.SuppressionReason Reason, out string? Provider, out System.DateTimeOffset At) -> void
+FreeTierMail.Suppression.Equals(FreeTierMail.Suppression? other) -> bool
+override FreeTierMail.Suppression.Equals(object? obj) -> bool
+override FreeTierMail.Suppression.GetHashCode() -> int
+FreeTierMail.Suppression.Provider.get -> string?
+FreeTierMail.Suppression.Provider.init -> void
+FreeTierMail.Suppression.Reason.get -> FreeTierMail.SuppressionReason
+FreeTierMail.Suppression.Reason.init -> void
+FreeTierMail.Suppression.Suppression(string! Address, FreeTierMail.SuppressionReason Reason, string? Provider, System.DateTimeOffset At) -> void
+override FreeTierMail.Suppression.ToString() -> string!
+static FreeTierMail.Suppression.operator !=(FreeTierMail.Suppression? left, FreeTierMail.Suppression? right) -> bool
+static FreeTierMail.Suppression.operator ==(FreeTierMail.Suppression? left, FreeTierMail.Suppression? right) -> bool
+FreeTierMail.SuppressionReason
+FreeTierMail.SuppressionReason.Complaint = 1 -> FreeTierMail.SuppressionReason
+FreeTierMail.SuppressionReason.HardBounce = 0 -> FreeTierMail.SuppressionReason
+FreeTierMail.SuppressionReason.Manual = 2 -> FreeTierMail.SuppressionReason
+FreeTierMail.WebhookReceiver
+const FreeTierMail.WebhookReceiver.MaxBodyBytes = 1048576 -> int
+FreeTierMail.WebhookReceiver.Names.get -> System.Collections.Generic.IReadOnlyCollection<string!>!
+FreeTierMail.WebhookReceiver.ReceiveAsync(string! provider, FreeTierMail.WebhookRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<FreeTierMail.WebhookResult>!
+FreeTierMail.WebhookReceiver.WebhookReceiver(System.Collections.Generic.IEnumerable<FreeTierMail.EmailWebhook!>! webhooks, FreeTierMail.ISuppressionStore! store, System.TimeProvider? timeProvider = null) -> void
+FreeTierMail.WebhookRequest
+FreeTierMail.WebhookRequest.Body.get -> System.ReadOnlyMemory<byte>
+FreeTierMail.WebhookRequest.Header(string! name) -> string?
+FreeTierMail.WebhookRequest.WebhookRequest(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string!, string!>>! headers, System.ReadOnlyMemory<byte> body) -> void
+FreeTierMail.WebhookResult
+FreeTierMail.WebhookResult.Accepted = 0 -> FreeTierMail.WebhookResult
+FreeTierMail.WebhookResult.Malformed = 3 -> FreeTierMail.WebhookResult
+FreeTierMail.WebhookResult.Unauthorized = 1 -> FreeTierMail.WebhookResult
+FreeTierMail.WebhookResult.UnknownProvider = 2 -> FreeTierMail.WebhookResult
+Microsoft.Extensions.DependencyInjection.BrevoFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.BrevoFreeTierMailBuilderExtensions.AddBrevo(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "brevo", System.Action<FreeTierMail.Brevo.BrevoOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.ElasticEmailFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.ElasticEmailFreeTierMailBuilderExtensions.AddElasticEmail(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "elasticemail", System.Action<FreeTierMail.ElasticEmail.ElasticEmailOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.FreeTierMailServiceCollectionExtensions
+static Microsoft.Extensions.DependencyInjection.FreeTierMailServiceCollectionExtensions.AddFreeTierMail(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+static Microsoft.Extensions.DependencyInjection.FreeTierMailServiceCollectionExtensions.AddFreeTierMail(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+static Microsoft.Extensions.DependencyInjection.FreeTierMailServiceCollectionExtensions.AddFreeTierMail(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<FreeTierMail.FreeTierMailerOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.FreeTierMailWebhookBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.FreeTierMailWebhookBuilderExtensions.AddWebhook(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, FreeTierMail.EmailWebhook! webhook) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder
+Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder.AddHttpProvider<TOptions>(string! name, System.Action<TOptions!>! configure, System.Func<System.Net.Http.HttpClient!, TOptions!, FreeTierMail.IEmailProvider!>! create) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder.Section.get -> Microsoft.Extensions.Configuration.IConfigurationSection?
+Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder.Services.get -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+Microsoft.Extensions.DependencyInjection.MailerSendFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.MailerSendFreeTierMailBuilderExtensions.AddMailerSend(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "mailersend", System.Action<FreeTierMail.MailerSend.MailerSendOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.MailgunFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.MailgunFreeTierMailBuilderExtensions.AddMailgun(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "mailgun", System.Action<FreeTierMail.Mailgun.MailgunOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.MailjetFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.MailjetFreeTierMailBuilderExtensions.AddMailjet(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "mailjet", System.Action<FreeTierMail.Mailjet.MailjetOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.ResendFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.ResendFreeTierMailBuilderExtensions.AddResend(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "resend", System.Action<FreeTierMail.Resend.ResendOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+Microsoft.Extensions.DependencyInjection.Smtp2GoFreeTierMailBuilderExtensions
+static Microsoft.Extensions.DependencyInjection.Smtp2GoFreeTierMailBuilderExtensions.AddSmtp2Go(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "smtp2go", System.Action<FreeTierMail.Smtp2Go.Smtp2GoOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+static FreeTierMail.EmailProviderSettings.IsEnabled(Microsoft.Extensions.Configuration.IConfiguration? section) -> bool
+virtual FreeTierMail.EmailProviderOptions.RequiresApiKey.get -> bool

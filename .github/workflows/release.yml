@@ -94,8 +94,10 @@ jobs:
           retention-days: 30
 
   publish:
-    # Publishes the files verify produced, not a rebuild, so what was tested is what ships.
+    # Publishes the files verify produced, not a rebuild, so what was tested is what ships. Skipped
+    # on a dry run: production only accepts v* tags, so a run from a branch would be rejected.
     needs: verify
+    if: github.event_name == 'push' || inputs.dry-run == false
     runs-on: windows-2025          # signtool, once a certificate exists
     environment: production        # manual approval gate
     permissions:

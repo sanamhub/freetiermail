@@ -32,8 +32,7 @@ For the maintainer. SemVer, changelog, green CI, approval, rollback plan, post-r
 3. Settings > Secrets and variables > Actions: add the secret `NUGET_USER` (the nuget.org account
    name the policy belongs to; it is not a key).
 4. Run `release` from the Actions tab with `dry-run` ticked. It builds, verifies and uploads
-   `release-files` without publishing. The SBOM step's `-fn` flag is unchecked until this run:
-   compare it with `dotnet CycloneDX --help` in the log.
+   `release-files`, and skips the publish job.
 
 ## Tag and publish
 
