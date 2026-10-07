@@ -135,6 +135,60 @@ Keys come from user secrets or the environment, for example
 `FreeTierMail__Providers__brevo__ApiKey`, never from a committed `appsettings.json`. A provider
 with no key stops the host at start, and the message names the setting to fix.
 
+### Switch providers per environment
+
+List every provider in code once and switch them with `Enabled` in configuration. A provider
+switched off is not registered: its key is not checked and it gets no quota. The same code then
+sends to a local test inbox in development and through real accounts in production.
+
+```csharp
+builder.Services.AddFreeTierMail(builder.Configuration.GetSection("FreeTierMail"))
+    .AddResend()
+    .AddBrevo()
+    .AddSmtp("inbox");
+```
+
+`appsettings.json`, production: a paid Resend plan first, Brevo's free tier as the fallback. Leave
+`Daily` and `Monthly` out for a plan with no limit.
+
+```json
+{
+  "FreeTierMail": {
+    "Strategy": "Ordered",
+    "Providers": {
+      "resend": { "PreferForCritical": true },
+      "brevo": { "Daily": 300 },
+      "inbox": { "Enabled": false }
+    }
+  }
+}
+```
+
+`appsettings.Development.json`: everything goes to [Mailpit](https://mailpit.axllent.org/) on
+your machine. On a loopback host the SMTP provider needs no login and uses TLS only when offered.
+
+```json
+{
+  "FreeTierMail": {
+    "Providers": {
+      "resend": { "Enabled": false },
+      "brevo": { "Enabled": false },
+      "inbox": { "Host": "localhost", "Port": 1025 }
+    }
+  }
+}
+```
+
+If every provider is switched off, building the mailer fails and says so.
+
+### Gmail
+
+A Gmail account works as an SMTP provider: `smtp.gmail.com`, port 587, the address as `Username`
+and an app password (it needs 2-Step Verification) as `ApiKey`. It is not unlimited: Google allows
+about 500 recipients a day on a free account and 2,000 on Google Workspace, and locks sending for
+a day when you go over, so set `Daily` below that. The sender must be the account's address or a
+verified alias.
+
 Both samples are compiled by CI from [samples/FreeTierMail.Samples](samples/FreeTierMail.Samples).
 
 ## Bounces and complaints

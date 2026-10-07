@@ -406,3 +406,5 @@ Microsoft.Extensions.DependencyInjection.ResendFreeTierMailBuilderExtensions
 static Microsoft.Extensions.DependencyInjection.ResendFreeTierMailBuilderExtensions.AddResend(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "resend", System.Action<FreeTierMail.Resend.ResendOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
 Microsoft.Extensions.DependencyInjection.Smtp2GoFreeTierMailBuilderExtensions
 static Microsoft.Extensions.DependencyInjection.Smtp2GoFreeTierMailBuilderExtensions.AddSmtp2Go(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "smtp2go", System.Action<FreeTierMail.Smtp2Go.Smtp2GoOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
+static FreeTierMail.EmailProviderSettings.IsEnabled(Microsoft.Extensions.Configuration.IConfiguration? section) -> bool
+virtual FreeTierMail.EmailProviderOptions.RequiresApiKey.get -> bool

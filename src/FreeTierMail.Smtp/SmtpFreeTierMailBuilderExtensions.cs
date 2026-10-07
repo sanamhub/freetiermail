@@ -13,7 +13,8 @@ public static class SmtpFreeTierMailBuilderExtensions
     /// Adds an SMTP provider named <paramref name="name"/>. When the mailer was added from
     /// configuration, <c>Host</c>, <c>Port</c>, <c>Username</c> and the shared settings are read from
     /// <c>Providers:&lt;name&gt;</c> under its section, then <paramref name="configure"/> runs. The
-    /// options are validated when the host starts.
+    /// options are validated when the host starts. Nothing is added when the section's
+    /// <c>Enabled</c> is false.
     /// </summary>
     /// <param name="builder">The FreeTierMail builder.</param>
     /// <param name="name">The provider's name in the mailer and its configuration key.</param>
@@ -26,6 +27,10 @@ public static class SmtpFreeTierMailBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         var section = builder.Section?.GetSection("Providers").GetSection(name);
+        if (!EmailProviderSettings.IsEnabled(section))
+        {
+            return builder;
+        }
 
         builder.Services.AddOptions<SmtpOptions>(name)
             .Configure(options =>
@@ -44,7 +49,7 @@ public static class SmtpFreeTierMailBuilderExtensions
 
                 configure?.Invoke(options);
             })
-            .Validate(options => IsValid(options, name), $"FreeTierMail provider '{name}' has invalid options: Host, Username, ApiKey (the SMTP password) and Port are required. Check FreeTierMail:Providers:{name}.")
+            .Validate(options => IsValid(options, name), $"FreeTierMail provider '{name}' has invalid options: Host and Port are required, and Username and ApiKey (the SMTP password) unless the host is loopback. Check FreeTierMail:Providers:{name}.")
             .ValidateOnStart();
         builder.Services.AddSingleton<IEmailProvider>(provider => new SmtpProvider(provider.GetRequiredService<IOptionsMonitor<SmtpOptions>>().Get(name)));
         return builder;

@@ -36,7 +36,7 @@ public sealed partial class FreeTierMailer
         var list = providers.ToArray();
         if (list.Length == 0 || Array.Exists(list, p => p is null))
         {
-            throw new ArgumentException("A mailer needs at least one provider, and none may be null.", nameof(providers));
+            throw new ArgumentException("A mailer needs at least one provider, and none may be null. Check that configuration does not switch every provider off.", nameof(providers));
         }
 
         var duplicate = list.GroupBy(p => p.Name, StringComparer.Ordinal).FirstOrDefault(g => g.Count() > 1);
