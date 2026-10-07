@@ -1,18 +1,1 @@
 #nullable enable
-FreeTierMail.Smtp.SmtpOptions
-FreeTierMail.Smtp.SmtpOptions.Host.get -> string!
-FreeTierMail.Smtp.SmtpOptions.Host.set -> void
-FreeTierMail.Smtp.SmtpOptions.Port.get -> int
-FreeTierMail.Smtp.SmtpOptions.Port.set -> void
-FreeTierMail.Smtp.SmtpOptions.SmtpOptions() -> void
-FreeTierMail.Smtp.SmtpOptions.Username.get -> string!
-FreeTierMail.Smtp.SmtpOptions.Username.set -> void
-override FreeTierMail.Smtp.SmtpOptions.Validate(string! providerName) -> void
-FreeTierMail.Smtp.SmtpProvider
-FreeTierMail.Smtp.SmtpProvider.Name.get -> string!
-FreeTierMail.Smtp.SmtpProvider.PreferForCritical.get -> bool
-FreeTierMail.Smtp.SmtpProvider.Quota.get -> FreeTierMail.QuotaPlan!
-FreeTierMail.Smtp.SmtpProvider.SendAsync(FreeTierMail.EmailMessage! message, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<FreeTierMail.ProviderResult!>!
-FreeTierMail.Smtp.SmtpProvider.SmtpProvider(FreeTierMail.Smtp.SmtpOptions! options) -> void
-Microsoft.Extensions.DependencyInjection.SmtpFreeTierMailBuilderExtensions
-static Microsoft.Extensions.DependencyInjection.SmtpFreeTierMailBuilderExtensions.AddSmtp(this Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder! builder, string! name = "smtp", System.Action<FreeTierMail.Smtp.SmtpOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IFreeTierMailBuilder!
