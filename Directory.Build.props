@@ -30,6 +30,6 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/sanamhub/freetiermail</RepositoryUrl>
     <!-- Lockstep: every package ships at this version (ADR-0003). release.yml reads it from here. -->
-    <Version>0.1.0-alpha.1</Version>
+    <Version>0.1.0-alpha.2</Version>
   </PropertyGroup>
 </Project>
