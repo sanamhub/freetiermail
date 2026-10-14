@@ -12,6 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="../FreeTierMail/FreeTierMail.csproj" />
     <PackageReference Include="MailKit" />
+    <!-- Direct reference so the packed nuspec carries the floor: consumers must not get
+         Pkcs 10.0.0 through MailKit (GHSA-846f-f764-76mx, CVE-2026-84008). Version comes from
+         Directory.Packages.props; drop both when MimeKit depends on 10.0.13 or later. -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
     <InternalsVisibleTo Include="FreeTierMail.Smtp.Tests" />
   </ItemGroup>
   <ItemGroup>
