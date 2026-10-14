@@ -5,6 +5,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0-alpha.2] - 2026-10-15
+
+### Security
+
+- `FreeTierMail.Smtp` now depends on `System.Security.Cryptography.Pkcs` 10.0.13 or later, so
+  consumers no longer receive 10.0.0 through MailKit, which has a high severity denial of service
+  (CVE-2026-84008, GHSA-846f-f764-76mx).
+
 ## [0.1.0-alpha.1] - 2026-10-07
 
 ### Added
