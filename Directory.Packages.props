@@ -11,7 +11,7 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
-    <PackageVersion Include="MailKit" Version="4.18.1" />
+    <PackageVersion Include="MailKit" Version="4.18.2" />
     <!-- MailKit 4.18.1 -> MimeKit 4.18.1 -> Pkcs 10.0.0, which carries GHSA-846f-f764-76mx
          (CVE-2026-84008, high severity DoS, fixed in 10.0.13). The direct reference in
          FreeTierMail.Smtp.csproj puts this floor in the packed nuspec. Drop both when MimeKit
