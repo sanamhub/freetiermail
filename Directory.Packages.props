@@ -16,7 +16,7 @@
          (CVE-2026-84008, high severity DoS, fixed in 10.0.13). The direct reference in
          FreeTierMail.Smtp.csproj puts this floor in the packed nuspec. Drop both when MimeKit
          depends on 10.0.13 or later. -->
-    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
     <PackageVersion Include="xunit.v3" Version="4.0.2" />
     <PackageVersion Include="xunit.v3.extensibility.core" Version="4.0.2" />
     <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.10.0" />
